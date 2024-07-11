@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import type { TapInfo } from "framer-motion";
@@ -10,11 +10,7 @@ interface Bonus {
   y: number;
 }
 
-interface HomeProps {
-  onHomeClose: () => void;
-}
-
-const Home = (props: HomeProps) => {
+const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const [ripples, setRipples] = useState<Bonus[]>([]);
   const [backBubbles, setBackBubbles] = useState<Bonus[]>([]);
@@ -60,12 +56,6 @@ const Home = (props: HomeProps) => {
         prevBonus.filter((bonus) => bonus.id !== newBonus.id)
       );
     }, 1.5 * 1000);
-  };
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60) < 0 ? 0 : Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60 < 0 ? 0 : seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
   useEffect(() => {
