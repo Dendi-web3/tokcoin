@@ -13,7 +13,6 @@ interface Bonus {
 const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const [ripples, setRipples] = useState<Bonus[]>([]);
-  const [backBubbles, setBackBubbles] = useState<Bonus[]>([]);
 
   function onTap(event: Event, info: TapInfo) {
     console.log("posiotin on screen:", info.point.x, info.point.y);
@@ -22,7 +21,7 @@ const Home = () => {
     } else {
       // window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
-    addBonus();
+    addBonus(info.point.x - 15, info.point.y - 15);
     addRipples(info.point.x - 15, info.point.y - 15);
   }
 
@@ -42,11 +41,11 @@ const Home = () => {
     }, 600); // Duration should match the animation duration
   };
 
-  const addBonus = () => {
+  const addBonus = (x: number, y: number) => {
     const newBonus: Bonus = {
       id: uuidv4(),
-      x: 280,
-      y: 60,
+      x: x,
+      y: y,
     };
 
     setBonus([...bonus, newBonus]);
@@ -58,70 +57,18 @@ const Home = () => {
     }, 1.5 * 1000);
   };
 
-  useEffect(() => {
-    // Function to generate a new ripple
-    const addBubble = () => {
-      // Fixed coordinates (center of the container)
-      const x = window.innerWidth / 2;
-      const y = window.innerHeight / 2;
-
-      const newBubble = { x, y, id: uuidv4() };
-
-      // Add the new ripple to the state
-      setBackBubbles((prevBubbles) => [...prevBubbles, newBubble]);
-
-      // Remove the ripple after 2400ms (duration * 2)
-      setTimeout(() => {
-        setBackBubbles((prevBubbles) =>
-          prevBubbles.filter((bubble) => bubble.id !== newBubble.id)
-        );
-      }, 2400);
-    };
-
-    // Create an interval to add ripples every 1200ms
-    const interval = setInterval(addBubble, 1200);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="relative h-full w-full bg-[#ffffff00] pt-[40px]">
+    <div className="relative min-h-[100vh] w-full bg-[#ffffff00]">
       <div
-        style={{
-          position: "absolute",
-          overflow: "hidden",
-          width: "100vw",
-          height: "100vh",
-          zIndex: 40,
-          pointerEvents: "none", // 禁用圆圈响应点击事件
-        }}
-      >
-        {backBubbles.map((bubble) => (
-          <motion.div
-            key={bubble.id}
-            initial={{ opacity: 1, scale: 0 }}
-            animate={{ opacity: 0, scale: 1.6 }} // Increase scale to expand radius
-            transition={{ duration: 1.6, ease: "linear" }} // Increase duration for a larger ripple
-            style={{
-              position: "absolute",
-              width: "200px", // Increase initial size for larger ripples
-              height: "200px", // Increase initial size for larger ripples
-              top: bubble.y - 100, // Adjust the ripple position for larger size
-              left: bubble.x - 100, // Adjust the ripple position for larger size
-              background: "rgba(255, 255, 255, 0.3)",
-              borderRadius: "50%",
-              pointerEvents: "none", // Prevent ripples from capturing mouse events
-            }}
-          />
-        ))}
-      </div>
-
-      <div
-        className="noselect absolute left-1/2 top-[248px] h-[85px] w-[343px] -translate-x-1/2 transform"
+        className="noselect "
         style={{
           zIndex: 70,
           pointerEvents: "none", // 禁用圆圈响应点击事件
+          position: "fixed",
+          top: "0px",
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
         }}
       >
         <AnimatePresence>
@@ -138,6 +85,7 @@ const Home = () => {
               transition={{ duration: 1.5 }}
               className="absolute text-3xl font-bold"
               style={{
+                position: "absolute",
                 left: b.x,
                 top: b.y,
                 pointerEvents: "none", // Prevent ripples from capturing mouse events
@@ -158,60 +106,18 @@ const Home = () => {
         </AnimatePresence>
       </div>
 
-      <div className="noselect absolute mt-[200px] flex w-full items-center justify-center">
-        <motion.div
-          className="noselect"
-          whileTap={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          style={{
-            // backgroundImage: `url("/catch/enemy${round + 1}.png")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundColor: "red",
-            width: "256px",
-            height: "256px",
-            zIndex: "50",
-          }}
-          onTap={onTap}
-        ></motion.div>
-      </div>
-
-      <div
+      <motion.div
+        className="noselect"
         style={{
-          position: "fixed",
-          top: "0px",
-          width: "100vw",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          // backgroundColor: "red",
+          width: "100%",
           height: "100vh",
-          overflow: "hidden",
-          zIndex: 100,
-          pointerEvents: "none",
+          zIndex: "50",
         }}
-      >
-        <AnimatePresence>
-          {ripples.map((ripple) => (
-            <React.Fragment key={ripple.id}>
-              <motion.div
-                key={ripple.id}
-                initial={{ opacity: 1, scale: 0 }}
-                animate={{ opacity: 0, scale: 5 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-                style={{
-                  position: "absolute",
-                  left: ripple.x,
-                  top: ripple.y,
-                  width: 30,
-                  height: 30,
-                  borderRadius: "50%",
-                  transform: "translate(-50%, -50%)",
-                  border: "0.1px solid white",
-                  pointerEvents: "none", // 禁用圆圈响应点击事件
-                }}
-              />
-            </React.Fragment>
-          ))}
-        </AnimatePresence>
-      </div>
+        onTap={onTap}
+      ></motion.div>
     </div>
   );
 };
