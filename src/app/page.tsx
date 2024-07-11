@@ -19,7 +19,7 @@ const Home = () => {
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {
-      // window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
+      window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
     addBonus(info.point.x - 15, info.point.y - 15);
   }
