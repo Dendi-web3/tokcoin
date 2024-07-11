@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import type { TapInfo } from "framer-motion";
 import Image from "next/image";
+import ChatRoom from "./CharRoom";
 interface Bonus {
   id: string;
   x: number;
@@ -41,12 +42,13 @@ const Home = () => {
 
   return (
     <div className="relative min-h-[100vh] w-full bg-[#ffffff00]">
+      <ChatRoom />
       <div
         className="noselect "
         style={{
           zIndex: 70,
           pointerEvents: "none", // 禁用圆圈响应点击事件
-          position: "fixed",
+          position: "absolute",
           top: "0px",
           width: "100vw",
           height: "100vh",
@@ -91,6 +93,8 @@ const Home = () => {
       <motion.div
         className="noselect"
         style={{
+          position: "absolute",
+
           backgroundSize: "cover",
           backgroundPosition: "center",
           // backgroundColor: "red",
