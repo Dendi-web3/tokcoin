@@ -1,17 +1,21 @@
+/* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {
   return (
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"
       style={{
-        backgroundImage: "url('https://placehold.co/1024x575')",
+        backgroundImage: "url('/background.png')",
       }}
     >
-      <div className="absolute top-0 left-0 w-full flex items-center justify-between p-4 bg-black bg-opacity-50 text-white">
+      <div
+        className="absolute top-0 left-0 w-full flex items-center justify-between p-4  text-white"
+        style={{ background: "linear-gradient(to bottom, black, transparent)" }}
+      >
         <div className="flex items-center space-x-2">
           <img
-            src="https://placehold.co/40x40"
+            src="/avatar.png"
             alt="dark_queen profile picture"
-            className="w-10 h-10 rounded-full"
+            className="w-6 h-6 rounded-full"
           />
           <span className="font-bold">dark_queen</span>
           <button className="bg-gradient-to-r from-pink-500 to-yellow-500 text-white px-2 py-1 rounded-full">
@@ -21,19 +25,19 @@ export default function ChatRoom() {
         <div className="flex items-center space-x-2">
           <div className="flex -space-x-2">
             <img
-              src="https://placehold.co/30x30"
+              src="/m1.png"
               alt="user1"
-              className="w-8 h-8 rounded-full border-2 border-white"
+              className="w-6 h-6 rounded-full border-2 border-white"
             />
             <img
-              src="https://placehold.co/30x30"
+              src="/m2.png"
               alt="user2"
-              className="w-8 h-8 rounded-full border-2 border-white"
+              className="w-6 h-6 rounded-full border-2 border-white"
             />
             <img
-              src="https://placehold.co/30x30"
+              src="/m3.png"
               alt="user3"
-              className="w-8 h-8 rounded-full border-2 border-white"
+              className="w-6 h-6 rounded-full border-2 border-white"
             />
           </div>
           <span>25</span>
@@ -45,10 +49,15 @@ export default function ChatRoom() {
         <span>🎵 Physical</span>
       </div>
 
-      <div className="absolute bottom-1/2 left-4 bg-black bg-opacity-50 text-white p-4 rounded-lg">
-        <p>
+      <div className="absolute text-[14px] bottom-1/2 left-4 bg-black bg-opacity-50 text-white p-4 rounded-lg">
+        <div className="flex items-center space-x-2">
+          <img
+            src="/avatar.png"
+            alt="dark_queen profile picture"
+            className="w-6 h-6 rounded-full"
+          />
           <span className="font-bold">dark_queen</span>
-        </p>
+        </div>
         <p>
           ID: <span className="text-pink-500">dark_queen</span>
         </p>
@@ -63,16 +72,23 @@ export default function ChatRoom() {
         </p>
       </div>
 
-      <div className="absolute bottom-1/3 left-4 bg-pink-500 bg-opacity-75 text-white px-4 py-2 rounded-full">
-        <span className="font-bold">Joe</span> just joined the room
+      <div
+        className="absolute bottom-1/3 text-[12px] left-4 bg-pink-500 bg-opacity-75 text-white px-4 py-2 rounded-full"
+        style={{
+          background:
+            "linear-gradient(91deg, rgba(255, 113, 198, 0.79) 0.44%, rgba(251, 167, 217, 0.79) 100%)",
+        }}
+      >
+        <span className="font-bold text-[#2094FF] ">Joe</span> just joined the
+        room
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full p-4 bg-black bg-opacity-50 text-white">
+      <div className="absolute bottom-0 left-0 w-full text-[14px] p-4 bg-black bg-opacity-50 text-white">
         <div className="flex items-start space-x-2 mb-2">
           <img
-            src="https://placehold.co/40x40"
+            src="/avatar.png"
             alt="dark_queen profile picture"
-            className="w-10 h-10 rounded-full"
+            className="w-6 h-6 rounded-full"
           />
           <div>
             <p className="font-bold">dark_queen</p>
