@@ -75,11 +75,29 @@ export default function ChatRoom() {
         </div>
       </div>
 
-      <div className="absolute top-16 left-4 bg-zinc-800 bg-opacity-50 text-white px-2 py-1 rounded-full">
-        <span>🎵 Physical</span>
+      <div
+        className="absolute top-16 h-[24px] left-4 text-white px-2 py-1 rounded-full flex flex-row items-center "
+        style={{
+          opacity: " var(--sds-size-stroke-border)",
+          background: "rgba(8, 8, 8, 0.20)",
+        }}
+      >
+        <img
+          src="/music_note.png"
+          alt="Ava profile picture"
+          className="w-[16px] h-[16px] rounded-full mr-[4px]"
+        />
+        <span className="text-[12px]"> Physical</span>
       </div>
 
-      <div className="absolute text-[14px] bottom-1/2 left-4 bg-black bg-opacity-50 text-white p-4 rounded-lg">
+      <div
+        className="absolute text-[14px] bottom-1/2  text-white p-[12px] rounded-lg mx-[16px]"
+        style={{
+          borderRadius: "10px",
+          opacity: " var(--sds-size-stroke-border)",
+          background: "rgba(8, 8, 8, 0.20)",
+        }}
+      >
         <div className="flex items-center space-x-2">
           <img
             src="/avatar.png"
@@ -112,18 +130,21 @@ export default function ChatRoom() {
             </span>
           </div>{" "}
         </div>
-        <p>
-          ID: <span className="text-pink-500">Ava</span>
+        <p className="text-[#FF71C6] flex flex-row items-between">
+          <span className="text-[#FF71C6] flex-grow"> ID: </span>
+          <span className="text-[#FF71C6] ml-auto">Ava</span>
         </p>
-        <p>
-          Service: <span className="text-pink-500">STEAM Chatting Dance</span>
+        <p className="text-[#FF71C6] flex flex-row items-between">
+          <span className="text-[#FF71C6] flex-grow"> Service: </span>
+          <span className="text-[#FF71C6] ml-auto">STEAM Chatting Dance</span>
         </p>
-        <p>
-          Height: <span className="text-pink-500">170</span>
+        <p className="text-[#FF71C6] flex flex-row items-between">
+          <span className="text-[#FF71C6] flex-grow">Height: </span>
+          <span className="text-[#FF71C6] ml-auto">170</span>
         </p>
-        <p>
-          Introduce:{" "}
-          <span className="text-pink-500">
+        <p className="text-[#FF71C6] flex flex-row items-between">
+          <span className="text-[#FF71C6] flex-grow"> Introduce: </span>
+          <span className="text-[#FF71C6] ml-auto">
             I'm Ava a small girl with big attributes
           </span>
         </p>
@@ -186,36 +207,39 @@ export default function ChatRoom() {
               </span>
             </div>
           </div>
-          <div style={{ fontSize: 14 }}>
+          <div style={{ fontSize: 14, marginTop: "4px" }}>
             Welcome to the live stream. If you can't sleep, stay here and listen
             for five minutes to help you fall asleep. Thank you for following
             and liking.
           </div>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-        className="absolute bottom-[24px] left-0 mx-[16px]"
-      >
-        <div className="flex items-center  space-x-2 ">
-          <div
-            className="flex-1 px-4 py-2 rounded-full text-white w-[215px]"
-            style={{
-              background: "rgba(0, 0, 0, 0.20)",
-              opacity: "var(--sds-size-stroke-border)",
-            }}
-          >
-            Say something
-          </div>
-          <button className="text-white">😊</button>
-          <button className="text-white">🎁</button>
-          <button className="text-white">💖</button>
+
+      <div className="flex items-center  space-x-2 absolute bottom-[24px] left-0 mx-[16px]">
+        <div
+          className="flex-1 px-4 py-2 rounded-full text-white w-[215px] text-[12px] flex flex-row"
+          style={{
+            background: "rgba(0, 0, 0, 0.20)",
+            opacity: "var(--sds-size-stroke-border)",
+          }}
+        >
+          <div> Say something</div>
+          <img
+            src="/mood.png"
+            alt="Ava profile picture"
+            className="w-[24px] h-[24px] rounded-full absolute left-[180px] top-[8px]"
+          />
         </div>
+        <img
+          src="/gift.png"
+          alt="Ava profile picture"
+          className="w-[40px] h-[40px] rounded-full"
+        />
+        <img
+          src="/heart2.png"
+          alt="Ava profile picture"
+          className="w-[40px] h-[40px] rounded-full"
+        />
       </div>
     </div>
   );
