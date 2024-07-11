@@ -1,113 +1,229 @@
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { v4 as uuidv4 } from "uuid";
+import type { TapInfo } from "framer-motion";
 import Image from "next/image";
-
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+interface Bonus {
+  id: string;
+  x: number;
+  y: number;
 }
+
+interface HomeProps {
+  onHomeClose: () => void;
+}
+
+const Home = (props: HomeProps) => {
+  const [bonus, setBonus] = useState<Bonus[]>([]);
+  const [ripples, setRipples] = useState<Bonus[]>([]);
+  const [backBubbles, setBackBubbles] = useState<Bonus[]>([]);
+
+  function onTap(event: Event, info: TapInfo) {
+    console.log("posiotin on screen:", info.point.x, info.point.y);
+    if (navigator?.vibrate) {
+      navigator.vibrate(200);
+    } else {
+      // window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
+    }
+    addBonus();
+    addRipples(info.point.x - 15, info.point.y - 15);
+  }
+
+  const addRipples = (x: number, y: number) => {
+    const newRipple = {
+      x: x,
+      y: y,
+      id: uuidv4(),
+    };
+    setRipples((oldRipples) => [...oldRipples, newRipple]);
+
+    // Remove ripple after animation
+    setTimeout(() => {
+      setRipples((oldRipples) =>
+        oldRipples.filter((ripple) => ripple.id !== newRipple.id)
+      );
+    }, 600); // Duration should match the animation duration
+  };
+
+  const addBonus = () => {
+    const newBonus: Bonus = {
+      id: uuidv4(),
+      x: 280,
+      y: 60,
+    };
+
+    setBonus([...bonus, newBonus]);
+
+    setTimeout(() => {
+      setBonus((prevBonus) =>
+        prevBonus.filter((bonus) => bonus.id !== newBonus.id)
+      );
+    }, 1.5 * 1000);
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60) < 0 ? 0 : Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60 < 0 ? 0 : seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  useEffect(() => {
+    // Function to generate a new ripple
+    const addBubble = () => {
+      // Fixed coordinates (center of the container)
+      const x = window.innerWidth / 2;
+      const y = window.innerHeight / 2;
+
+      const newBubble = { x, y, id: uuidv4() };
+
+      // Add the new ripple to the state
+      setBackBubbles((prevBubbles) => [...prevBubbles, newBubble]);
+
+      // Remove the ripple after 2400ms (duration * 2)
+      setTimeout(() => {
+        setBackBubbles((prevBubbles) =>
+          prevBubbles.filter((bubble) => bubble.id !== newBubble.id)
+        );
+      }, 2400);
+    };
+
+    // Create an interval to add ripples every 1200ms
+    const interval = setInterval(addBubble, 1200);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative h-full w-full bg-[#ffffff00] pt-[40px]">
+      <div
+        style={{
+          position: "absolute",
+          overflow: "hidden",
+          width: "100vw",
+          height: "100vh",
+          zIndex: 40,
+          pointerEvents: "none", // 禁用圆圈响应点击事件
+        }}
+      >
+        {backBubbles.map((bubble) => (
+          <motion.div
+            key={bubble.id}
+            initial={{ opacity: 1, scale: 0 }}
+            animate={{ opacity: 0, scale: 1.6 }} // Increase scale to expand radius
+            transition={{ duration: 1.6, ease: "linear" }} // Increase duration for a larger ripple
+            style={{
+              position: "absolute",
+              width: "200px", // Increase initial size for larger ripples
+              height: "200px", // Increase initial size for larger ripples
+              top: bubble.y - 100, // Adjust the ripple position for larger size
+              left: bubble.x - 100, // Adjust the ripple position for larger size
+              background: "rgba(255, 255, 255, 0.3)",
+              borderRadius: "50%",
+              pointerEvents: "none", // Prevent ripples from capturing mouse events
+            }}
+          />
+        ))}
+      </div>
+
+      <div
+        className="noselect absolute left-1/2 top-[248px] h-[85px] w-[343px] -translate-x-1/2 transform"
+        style={{
+          zIndex: 70,
+          pointerEvents: "none", // 禁用圆圈响应点击事件
+        }}
+      >
+        <AnimatePresence>
+          {bonus.map((b) => (
+            <motion.div
+              key={b.id}
+              initial={{ opacity: 1, y: 0, x: 0 }}
+              animate={{
+                opacity: 0,
+                y: -88,
+                x: -25,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              className="absolute text-3xl font-bold"
+              style={{
+                left: b.x,
+                top: b.y,
+                pointerEvents: "none", // Prevent ripples from capturing mouse events
+              }}
+            >
+              <div className="flex items-center justify-center">
+                <Image
+                  src="/heart.png"
+                  alt="coin"
+                  className="mr-2 rounded-full"
+                  width={20}
+                  height={20}
+                />
+                <span className="text-sm text-white">+{1}</span>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      <div className="noselect absolute mt-[200px] flex w-full items-center justify-center">
+        <motion.div
+          className="noselect"
+          whileTap={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          style={{
+            // backgroundImage: `url("/catch/enemy${round + 1}.png")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundColor: "red",
+            width: "256px",
+            height: "256px",
+            zIndex: "50",
+          }}
+          onTap={onTap}
+        ></motion.div>
+      </div>
+
+      <div
+        style={{
+          position: "fixed",
+          top: "0px",
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          zIndex: 100,
+          pointerEvents: "none",
+        }}
+      >
+        <AnimatePresence>
+          {ripples.map((ripple) => (
+            <React.Fragment key={ripple.id}>
+              <motion.div
+                key={ripple.id}
+                initial={{ opacity: 1, scale: 0 }}
+                animate={{ opacity: 0, scale: 5 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
+                style={{
+                  position: "absolute",
+                  left: ripple.x,
+                  top: ripple.y,
+                  width: 30,
+                  height: 30,
+                  borderRadius: "50%",
+                  transform: "translate(-50%, -50%)",
+                  border: "0.1px solid white",
+                  pointerEvents: "none", // 禁用圆圈响应点击事件
+                }}
+              />
+            </React.Fragment>
+          ))}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
