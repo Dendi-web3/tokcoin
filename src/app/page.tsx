@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import type { TapInfo } from "framer-motion";
@@ -12,7 +12,6 @@ interface Bonus {
 
 const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
-  const [ripples, setRipples] = useState<Bonus[]>([]);
 
   function onTap(event: Event, info: TapInfo) {
     console.log("posiotin on screen:", info.point.x, info.point.y);
@@ -22,24 +21,7 @@ const Home = () => {
       // window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
     addBonus(info.point.x - 15, info.point.y - 15);
-    addRipples(info.point.x - 15, info.point.y - 15);
   }
-
-  const addRipples = (x: number, y: number) => {
-    const newRipple = {
-      x: x,
-      y: y,
-      id: uuidv4(),
-    };
-    setRipples((oldRipples) => [...oldRipples, newRipple]);
-
-    // Remove ripple after animation
-    setTimeout(() => {
-      setRipples((oldRipples) =>
-        oldRipples.filter((ripple) => ripple.id !== newRipple.id)
-      );
-    }, 600); // Duration should match the animation duration
-  };
 
   const addBonus = (x: number, y: number) => {
     const newBonus: Bonus = {
