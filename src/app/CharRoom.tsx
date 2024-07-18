@@ -1,10 +1,10 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatNumberKMB } from "../tools/tools";
 
 /* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {
-  const [follow, setFollow] = useState<boolean>(false);
+  // const [follow, setFollow] = useState<boolean>(false);
   const router = useRouter();
   return (
     <div

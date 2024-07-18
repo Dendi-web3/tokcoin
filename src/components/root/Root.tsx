@@ -22,7 +22,7 @@ import { ErrorPage } from "@/components/root/ErrorPage";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 import { useDidMount } from "@/hooks/useDidMount";
 import useGlobalStore from "@/store/useGlobalStore";
-import { apiLogin } from "@/service/User";
+// import { apiLogin } from "@/service/User";
 import "./styles.css";
 import { useSocket } from "@/context/SocketContext";
 
@@ -37,19 +37,20 @@ function App(props: PropsWithChildren) {
     return initData && initData.user ? initData.user : undefined;
   }, [initData]);
 
-  const token = useGlobalStore((state) => state.token);
-  const login = async () => {
-    if (token.length > 0) return;
-    const loginResult = await apiLogin({
-      telegramId: user?.id + "",
-      firstName: user?.firstName ?? "",
-      lastName: user?.lastName ?? "",
-      languageCode: user?.languageCode ?? "",
-      isVip: user?.isPremium ?? false,
-      referralCode: lp.startParam,
-      init: lp.initDataRaw,
-    });
-  };
+  // const token = useGlobalStore((state) => state.token);
+  // const login = async () => {
+  //   if (token.length > 0) return;
+  //   const loginResult = await apiLogin({
+  //     telegramId: user?.id + "",
+  //     firstName: user?.firstName ?? "",
+  //     lastName: user?.lastName ?? "",
+  //     languageCode: user?.languageCode ?? "",
+  //     isVip: user?.isPremium ?? false,
+  //     referralCode: lp.startParam,
+  //     init: lp.initDataRaw,
+  //   });
+  //   console.log(loginResult);
+  // };
 
   let prevUser: User | undefined = undefined;
 
