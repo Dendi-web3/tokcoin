@@ -1,5 +1,5 @@
 "use client";
-import RankingItem from "@/components/ranking/RankingItem2";
+import RankingItem from "@/components/ranking/RankingItem";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 
