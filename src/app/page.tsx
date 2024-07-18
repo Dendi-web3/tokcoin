@@ -21,7 +21,7 @@ const Home = () => {
     } else {
       window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
-    addBonus(info.point.x - 15, info.point.y - 15);
+    addBonus(info.point.x - 15, info.point.y - 15 - 104);
   }
 
   const addBonus = (x: number, y: number) => {
@@ -49,9 +49,9 @@ const Home = () => {
           zIndex: 70,
           pointerEvents: "none", // 禁用圆圈响应点击事件
           position: "absolute",
-          top: "0px",
+          top: "104px",
           width: "100vw",
-          height: "100vh",
+          height: "calc(100vh - 104px)",
           overflow: "hidden",
         }}
       >
@@ -94,12 +94,12 @@ const Home = () => {
         className="noselect"
         style={{
           position: "absolute",
-
+          top: "104px",
           backgroundSize: "cover",
           backgroundPosition: "center",
           // backgroundColor: "red",
           width: "100%",
-          height: "100vh",
+          height: "calc(100vh - 104px)",
           zIndex: "50",
         }}
         onTap={onTap}

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { formatNumberKMB } from "../tools/tools";
 
 /* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {
   const [follow, setFollow] = useState<boolean>(false);
+  const router = useRouter();
   return (
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"
@@ -97,7 +99,12 @@ export default function ChatRoom() {
             <span className="text-[12px]"> Physical</span>
           </div>
 
-          <div className=" flex items-center space-x-1">
+          <div
+            className=" flex items-center space-x-1"
+            onClick={() => {
+              router.push("/ranking");
+            }}
+          >
             <img src="/m1.png" alt="user1" className="w-6 h-6 rounded-full " />
             <img src="/m2.png" alt="user2" className="w-6 h-6 rounded-full " />
             <img src="/m3.png" alt="user3" className="w-6 h-6 rounded-full " />

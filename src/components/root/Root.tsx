@@ -57,7 +57,7 @@ function App(props: PropsWithChildren) {
     if (user !== prevUser) {
       if (!user) return;
       useGlobalStore.setState({ tgUser: user });
-      login();
+      // login();
       prevUser = user; // 更新 prevUser 以记录当前的 user 值
     }
   }, [user]);
