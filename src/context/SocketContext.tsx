@@ -1,8 +1,8 @@
 // src/context/SocketContext.tsx
-'use client';
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
-import useGlobalStore from '@/store/useGlobalStore';
+"use client";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { io, Socket } from "socket.io-client";
+import useGlobalStore from "@/store/useGlobalStore";
 
 // 创建一个 Context 来存储 Socket 实例
 const SocketContext = createContext<Socket | null>(null);
@@ -22,24 +22,24 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (token.length <= 0) return;
     const socketInstance = io(
-      `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://tongame-service-kosvlhf7ca-ew.a.run.app'}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://34.97.26.232/"}`,
       {
-        transports: ['websocket'],
+        transports: ["websocket"],
         autoConnect: false,
         auth: {
-          token: 'Bearer ' + token,
+          token: "Bearer " + token,
         },
       }
     );
 
     socketInstance.connect();
-    socketInstance.on('connect', () => {
-      console.log('socket connect', socketInstance);
+    socketInstance.on("connect", () => {
+      console.log("socket connect", socketInstance);
       setSocket(socketInstance);
     });
 
-    socketInstance.on('disconnect', () => {
-      console.error('socket disconnect');
+    socketInstance.on("disconnect", () => {
+      console.error("socket disconnect");
       setSocket(null);
     });
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatNumberKMB } from "./tools/tools";
+import { formatNumberKMB } from "../tools/tools";
 
 /* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {

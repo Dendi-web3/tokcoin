@@ -5,8 +5,8 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
-} from 'axios';
-import useGlobalStore from '@/store/useGlobalStore';
+} from "axios";
+import useGlobalStore from "@/store/useGlobalStore";
 
 // 请求响应参数（不包含data）
 export interface Result {
@@ -24,12 +24,12 @@ export enum ResultEnum {
   ERROR = 500,
   OVERDUE = 401,
   TIMEOUT = 30000,
-  TYPE = 'success',
+  TYPE = "success",
 }
 
 const config = {
   // 默认地址请求地址，可在 .env.** 文件中修改
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://tongame-service-kosvlhf7ca-ew.a.run.app'}`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://34.97.26.232/"}`,
   // 设置超时时间
   timeout: ResultEnum.TIMEOUT as number,
   // 跨域时候允许携带凭证
@@ -51,8 +51,8 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         const token = useGlobalStore.getState().token;
-        if (config.headers && typeof config.headers.set === 'function') {
-          config.headers.set('Authorization', 'Bearer ' + token);
+        if (config.headers && typeof config.headers.set === "function") {
+          config.headers.set("Authorization", "Bearer " + token);
         }
         return config;
       },
@@ -110,7 +110,7 @@ class RequestHttp {
     return this.service.delete(url, { params, ..._object });
   }
   download(url: string, params?: object, _object = {}): Promise<BlobPart> {
-    return this.service.post(url, params, { ..._object, responseType: 'blob' });
+    return this.service.post(url, params, { ..._object, responseType: "blob" });
   }
 }
 
