@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <button onclick="getRanks()">获取排名</button>
+    <div id="rankdata"></div>
+    <div id="gameData"></div>
+    <button onclick="gameClick()">点击</button>
+    <script
+      src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+      integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const socket = io("http://localhost:3000", {
+        transports: ["websocket"],
+        extraHeaders: {
+          Origin: "http://localhost:3000/",
+        },
+        auth: {
+          token:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk4YjgyNDMxYmJhODUzMTliMGRjMzIiLCJpYXQiOjE3MjEyODQ3MDZ9.TpqbLIAXpmmak4-quB7gnBcZSfwq5A7wKblrjQf-6ZU",
+        },
+      });
+      const getRanks = () => {
+        socket.emit("ranks", {}, (data) => {
+          document.getElementById("rankdata").innerHTML = JSON.stringify(data);
+        });
+      };
+      const gameClick = () => {
+        socket.emit("inClick", {}, (data) => {
+          document.getElementById("gameData").innerHTML = JSON.stringify(data);
+        });
+      };
+      socket.on("connect", function () {
+        console.log("---==== socket connected ====---");
+      });
+      socket.on("disconnect", function () {
+        console.log("Disconnected");
+      });
+    </script>
+  </head>
+  <body></body>
+</html>

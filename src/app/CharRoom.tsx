@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { formatNumberKMB } from "./tools/tools";
 
 /* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {
+  const [follow, setFollow] = useState<boolean>(false);
   return (
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"

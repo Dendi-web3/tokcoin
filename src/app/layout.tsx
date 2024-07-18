@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { SocketProvider } from "@/context/SocketContext";
+import { Root } from "@/components/root/Root";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " w-full min-h-[100vh]"}>
-        {children}
+        <SocketProvider>
+          <Root>{children}</Root>
+        </SocketProvider>
         <Script src="/js/telegram-web-app.js" strategy="beforeInteractive" />
       </body>
     </html>
