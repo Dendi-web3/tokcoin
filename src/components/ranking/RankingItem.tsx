@@ -13,7 +13,7 @@ export default function RankingItem(props: RankingItemProps) {
       style={{
         background: isMe
           ? "linear-gradient(114.33deg, #FFACAC 2.47%, rgba(255, 196, 196, 0.5) 92.92%)"
-          : "",
+          : "white",
         borderRadius: "12px",
       }}
     >

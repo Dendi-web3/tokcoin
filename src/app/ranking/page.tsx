@@ -13,7 +13,7 @@ export default function Widget() {
 
   const me = data?.find((x) => x.isMe);
   return (
-    <div className="bg-[#F5F3F3]">
+    <div className="bg-[#F5F3F3] h-full">
       <div
         className="flex items-center space-x-2 h-[64px] z-50  fixed top-0 p-4"
         onClick={() => {
@@ -51,7 +51,10 @@ export default function Widget() {
         className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px]"
         style={{
           height:
-            window.innerHeight - (window.innerWidth / 390) * 302 - 21 - 84,
+            window.innerHeight -
+            (window.innerWidth / 390) * 302 -
+            21 -
+            (me ? 84 : 0),
         }}
       >
         {data?.map((x: UserRankData, i) => {

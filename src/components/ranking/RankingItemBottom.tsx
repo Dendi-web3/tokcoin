@@ -9,7 +9,7 @@ export default function RankingItemBottom(props: RankingItemBottomProps) {
   const { rank, point, username } = props;
   return (
     <div
-      className="flex items-center justify-between p-[12px] w-full"
+      className="flex items-center justify-between p-[12px] w-full bg-white"
       style={{
         borderRadius: "12px",
       }}
