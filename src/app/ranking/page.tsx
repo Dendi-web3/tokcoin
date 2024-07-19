@@ -4,8 +4,6 @@ import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 
 export default function Widget() {
-  const user = useGlobalStore((x) => x.tgUser);
-
   const router = useRouter();
   const data: UserRankData[] | undefined = useGlobalStore(
     (x) => x.userRankData

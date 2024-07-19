@@ -111,7 +111,7 @@ const Home = () => {
                   userSelect: "none",
                 }}
               >
-                <img
+                <Image
                   src="/heart3.png"
                   alt="coin"
                   className="rounded-full noselect w-[40px] h-[40px]"
