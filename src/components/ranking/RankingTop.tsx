@@ -1,6 +1,5 @@
 // import { useState } from "react";
 import useGlobalStore from "@/store/useGlobalStore";
-import Image from "next/image";
 interface RankingTopProps {
   height: number;
 }
@@ -8,7 +7,6 @@ export default function RankingTop({ height }: RankingTopProps) {
   const data: UserRankData[] | undefined = useGlobalStore(
     (x) => x.userRankData
   );
-  const firstThree = [data?.[0], data?.[1], data?.[2]];
 
   return (
     <div
