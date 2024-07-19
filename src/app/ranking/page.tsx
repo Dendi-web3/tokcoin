@@ -2,6 +2,7 @@
 import RankingItem from "@/components/ranking/RankingItem";
 import RankingItemBottom from "@/components/ranking/RankingItemBottom";
 import useGlobalStore from "@/store/useGlobalStore";
+import RankingTop from "@/components/ranking/RankingTop";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 export default function Widget() {
@@ -39,6 +40,14 @@ export default function Widget() {
         height={(window.innerWidth / 390) * 302}
         style={{ position: "relative", zIndex: 10, top: 0 }}
       />
+      <Image
+        src={"/heart4.png"}
+        alt="rank_bg"
+        width={210}
+        height={210}
+        style={{ position: "absolute", zIndex: 10, top: 0, right: 0 }}
+      />
+      <RankingTop height={(window.innerWidth / 390) * 302 - 49 - 28} />
       <div
         className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px]"
         style={{
