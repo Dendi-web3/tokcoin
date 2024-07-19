@@ -1,19 +1,16 @@
 // import { useState } from "react";
-interface RankingItemProps {
+interface RankingItemBottomProps {
   rank: number;
   username: string;
   point: number;
   isMe: boolean;
 }
-export default function RankingItem(props: RankingItemProps) {
-  const { rank, point, username, isMe } = props;
+export default function RankingItemBottom(props: RankingItemBottomProps) {
+  const { rank, point, username } = props;
   return (
     <div
       className="flex items-center justify-between p-[12px] w-full"
       style={{
-        background: isMe
-          ? "linear-gradient(114.33deg, #FFACAC 2.47%, rgba(255, 196, 196, 0.5) 92.92%)"
-          : "",
         borderRadius: "12px",
       }}
     >
@@ -21,29 +18,29 @@ export default function RankingItem(props: RankingItemProps) {
         <span
           className=" text-[12px]"
           style={{
-            color: isMe ? "black" : "#4F4F4F",
+            color: "#868486",
           }}
         >
-          {rank}
+          {rank > 100 ? "99+" : rank}
         </span>
         <img
-          className="w-[32px] h-[32px] rounded-full"
+          className="w-[40px] h-[40px] rounded-full"
           src="/Joe.png"
           alt="user"
         />
         <span
           className=" text-[12px]"
           style={{
-            color: isMe ? "black" : "#4F4F4F",
+            color: "black",
           }}
         >
-          {isMe ? "You" : username}
+          {username}
         </span>
       </div>
       <div className="flex items-center space-x-2">
         <span
           className=" text-[12px]"
-          style={{ fontWeight: 300, color: isMe ? "black" : "#FFACAC" }}
+          style={{ fontWeight: 300, color: "black" }}
         >
           {Intl.NumberFormat().format(point)}
         </span>

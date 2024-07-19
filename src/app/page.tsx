@@ -115,8 +115,8 @@ const Home = () => {
                   src="/heart3.png"
                   alt="coin"
                   className="rounded-full noselect w-[40px] h-[40px]"
-                  width={40}
-                  height={40}
+                  width={60}
+                  height={60}
                   style={{
                     pointerEvents: "none", // 禁用圆圈响应点击事件
                     userSelect: "none",

@@ -1,28 +1,30 @@
 "use client";
 import RankingItem from "@/components/ranking/RankingItem";
+import RankingItemBottom from "@/components/ranking/RankingItemBottom";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 export default function Widget() {
   const router = useRouter();
   const data: UserRankData[] | undefined = useGlobalStore(
     (x) => x.userRankData
   );
+  const data2 = data?.concat(data);
 
   const me = data?.find((x) => x.isMe);
   return (
-    <div className="p-4">
+    <div className="bg-[#F5F3F3]">
       <div
-        className="flex items-center space-x-2 h-[64px]"
+        className="flex items-center space-x-2 h-[64px] z-50  fixed top-0 p-4"
         onClick={() => {
           router.push("/");
         }}
       >
-        <button className="text-muted-foreground">
-          <img alt="back-arrow" src="/Left.svg" />
+        <button className="text-white" style={{ color: "white" }}>
+          <img alt="back-arrow" src="/Left_white.svg" />
         </button>
         <h1
-          className="text-[#868486] text-[14px]"
+          className="text-white text-[14px]"
           style={{
             fontWeight: 400,
           }}
@@ -30,31 +32,24 @@ export default function Widget() {
           Ranking
         </h1>
       </div>
+      <Image
+        src={"/rank_bg.png"}
+        alt="rank_bg"
+        width={window.innerWidth}
+        height={(window.innerWidth / 390) * 302}
+        style={{ position: "relative", zIndex: 10, top: 0 }}
+      />
       <div
-        className="mt-[35px] w-full h-[200px] text-center relative"
+        className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px]"
         style={{
-          borderRadius: "17px",
-          // border: " solid #F6F6F6",
-          background:
-            "linear-gradient(0deg, #FFE8F6 0%, #FFCAEA 26.96%, #FFF0F9 99.76%)",
+          height:
+            window.innerHeight - (window.innerWidth / 390) * 302 - 21 - 84,
         }}
       >
-        <img
-          alt="hearts"
-          src="/big_heart.png"
-          className="absolute top-[30px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[138px] h-[138px]"
-        />
-        <p
-          className="text-[50px] text-[#FE8DD1]"
-          style={{
-            lineHeight: "200px",
-          }}
-        >
-          100,000,000
-        </p>
-      </div>
-      <div className="mt-[16px] space-y-4">
-        {data?.map((x: UserRankData, i) => <RankingItem key={i} {...x} />)}
+        {data2?.map((x: UserRankData, i) => {
+          if (i < 3) return;
+          return <RankingItem key={i} {...x} />;
+        })}
       </div>
       {me ? (
         <div
@@ -62,11 +57,10 @@ export default function Widget() {
           style={{
             width: "100%",
             borderTop: "0.5px solid #E1E0E0",
-            marginLeft: "-16px",
           }}
         >
           <div className="px-[16px] w-full">
-            <RankingItem {...me} />
+            <RankingItemBottom {...me} />
           </div>
         </div>
       ) : undefined}
