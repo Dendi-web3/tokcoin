@@ -1,11 +1,11 @@
 // import { useState } from "react";
 interface RankingItemProps {
   rank: number;
-  name: string;
-  score: number;
+  username: string;
+  point: number;
 }
 export default function RankingItem(props: RankingItemProps) {
-  const { rank, name, score } = props;
+  const { rank, point, username } = props;
   return (
     <div className="flex items-center justify-between px-[2px] w-full">
       <div className="flex items-center space-x-4">
@@ -15,12 +15,14 @@ export default function RankingItem(props: RankingItemProps) {
           src="/Joe.png"
           alt="user"
         />
-        <span className="font-semibold text-[#352D35] text-[14px]">{name}</span>
+        <span className="font-semibold text-[#352D35] text-[14px]">
+          {username}
+        </span>
       </div>
       <div className="flex items-center space-x-2">
         <img alt="hearts" src="/heart.png" className="w-[24px] h-[24px]" />
         <span className="text-[#868486] text-[12px]">
-          {Intl.NumberFormat().format(score)}
+          {Intl.NumberFormat().format(point)}
         </span>
       </div>
     </div>

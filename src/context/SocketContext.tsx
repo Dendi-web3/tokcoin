@@ -22,7 +22,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (token.length <= 0) return;
     const socketInstance = io(
-      `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://34.97.26.232/"}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://livegame-service-kosvlhf7ca-ew.a.run.app"}`,
       {
         transports: ["websocket"],
         autoConnect: false,

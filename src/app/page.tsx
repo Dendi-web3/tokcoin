@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { TapInfo } from "framer-motion";
 import Image from "next/image";
 import ChatRoom from "./CharRoom";
+import { useSocket } from "@/context/SocketContext";
 interface Bonus {
   id: string;
   x: number;
@@ -13,9 +14,13 @@ interface Bonus {
 
 const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
+  const socket = useSocket();
 
   function onTap(event: Event, info: TapInfo) {
     console.log("posiotin on screen:", info.point.x, info.point.y);
+    socket?.emit("inClick", (data: UserRankData[]) => {
+      console.log("inClick", data);
+    });
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {

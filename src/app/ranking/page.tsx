@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 
 export default function Widget() {
   const user = useGlobalStore((x) => x.tgUser);
+
   const router = useRouter();
-  const data = [
-    { score: 100, rank: 1, name: "Joe" },
-    { score: 100, rank: 2, name: "Joe" },
-  ];
+  const data: UserRankData[] | undefined = useGlobalStore(
+    (x) => x.userRankData
+  );
+
+  const me = data?.find((x) => x.isMe);
   return (
     <div className="p-4">
       <div
@@ -54,26 +56,22 @@ export default function Widget() {
         </p>
       </div>
       <div className="mt-[16px] space-y-4">
-        {data.map((x, i) => (
-          <RankingItem key={i} {...x} />
-        ))}
+        {data?.map((x: UserRankData, i) => <RankingItem key={i} {...x} />)}
       </div>
-      <div
-        className="absolute bottom-0 h-[84px] flex items-center justify-center"
-        style={{
-          width: "100%",
-          borderTop: "0.5px solid #E1E0E0",
-          marginLeft: "-16px",
-        }}
-      >
-        <div className="px-[16px] w-full">
-          <RankingItem
-            score={8888888888}
-            rank={888}
-            name={user?.firstName ?? "George"}
-          />
+      {me ? (
+        <div
+          className="absolute bottom-0 h-[84px] flex items-center justify-center"
+          style={{
+            width: "100%",
+            borderTop: "0.5px solid #E1E0E0",
+            marginLeft: "-16px",
+          }}
+        >
+          <div className="px-[16px] w-full">
+            <RankingItem {...me} />
+          </div>
         </div>
-      </div>
+      ) : undefined}
     </div>
   );
 }

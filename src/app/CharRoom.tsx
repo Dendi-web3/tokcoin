@@ -1,11 +1,15 @@
 // import { useState } from "react";
+import { useSocket } from "@/context/SocketContext";
+import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 import { formatNumberKMB } from "../tools/tools";
 
 /* eslint-disable react/no-unescaped-entities */
 export default function ChatRoom() {
-  // const [follow, setFollow] = useState<boolean>(false);
+  const userinfo = useGlobalStore((x) => x.userInfo);
+  const follow: boolean = userinfo?.follow ?? false;
   const router = useRouter();
+  const socket = useSocket();
   return (
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"
@@ -59,7 +63,7 @@ export default function ChatRoom() {
             </div>
 
             <button
-              className=" text-white px-2 py-1 rounded-full"
+              className=" text-white px-2 py-1 rounded-full h-[28px]"
               style={{
                 background:
                   "linear-gradient(109deg, #FFA244 14.81%, #FB2A7E 94.2%)",
@@ -69,16 +73,43 @@ export default function ChatRoom() {
                 alignItems: "center",
                 gap: "8px",
               }}
+              onClick={() => {
+                // window.Telegram.WebApp.showPopup(
+                //   {
+                //     title: "title",
+                //     message: "Confirm to unfollow?",
+                //     buttons: [
+                //       { id: "Confirm", type: "default", text: "Confirm" },
+                //       { id: "Cancel", type: "destructive", text: "Cancel" },
+                //     ],
+                //   },
+                //   function (buttonId: any) {
+                //     console.log("x", buttonId);
+                //   }
+                // );
+                socket?.emit("follow", (data: UserInfo) => {
+                  console.log("follow", data);
+                  useGlobalStore.setState({ userInfo: data });
+                });
+              }}
             >
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: "12px",
-                }}
-              >
-                Follow
-              </p>
+              {follow ? (
+                <img
+                  src="/done.svg"
+                  alt="user1"
+                  className="w-[24px] h-[24px]"
+                />
+              ) : (
+                <p
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    lineHeight: "12px",
+                  }}
+                >
+                  Follow
+                </p>
+              )}
             </button>
           </div>
           <img src="/close.svg" alt="user1" className="w-6 h-6" />

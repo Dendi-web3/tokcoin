@@ -31,6 +31,8 @@ declare global {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    point: number;
+    follow: boolean;
   }
 
   interface LoginParams {
@@ -70,14 +72,11 @@ declare global {
     seconds: number;
   }
 
-  interface UserSocketData {
-    userRank: Rank;
-    nextProgress: number;
-    goldToNextRank: number;
-    claim: number;
-    gold: number;
-    claimCountdown: FormatTime;
-    dogs: number;
+  interface UserRankData {
+    point: number;
+    rank: number;
+    username: string;
+    isMe: boolean;
   }
 
   interface UserInGameData {
@@ -159,7 +158,7 @@ declare global {
     index: number;
     title: string;
     gold: number;
-    type: 'Telegram' | 'Twitter' | 'Discord' | 'Calendar'; // 使用联合类型来确保类型值的安全性
+    type: "Telegram" | "Twitter" | "Discord" | "Calendar"; // 使用联合类型来确保类型值的安全性
     link: string;
     __v: number;
     createdAt: string;

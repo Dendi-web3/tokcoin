@@ -2,26 +2,26 @@
 /**
  * @file 全局状态，自动同步到 storage
  */
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { User } from '@tma.js/sdk-react';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { User } from "@tma.js/sdk-react";
 
 export interface GlobalStoreProps {
   token: string;
   tgUser: User | undefined;
-  // userInfo: UserInfo | undefined;
+  userInfo: UserInfo | undefined;
   userWeapons: UserWeaponInfo.WeaponItem[] | undefined;
   userCurrentWeaponIndex: number;
-  userSocketData: UserSocketData | undefined;
+  userRankData: UserRankData[] | undefined;
   signinData: SigninData | undefined;
   referralData: ReferralData | undefined;
   taskList: SocialTask[] | undefined;
   hideNav: boolean;
 }
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
-  token: '',
+  token: "",
   tgUser: undefined,
-  // userInfo: undefined,
+  userInfo: undefined,
   userWeapons: undefined,
   userCurrentWeaponIndex: 0,
   userSocketData: undefined,
@@ -29,6 +29,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   referralData: undefined,
   taskList: undefined,
   hideNav: false,
+  userRankData: undefined,
 }));
 
 export default useGlobalStore;

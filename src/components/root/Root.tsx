@@ -22,7 +22,7 @@ import { ErrorPage } from "@/components/root/ErrorPage";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 import { useDidMount } from "@/hooks/useDidMount";
 import useGlobalStore from "@/store/useGlobalStore";
-// import { apiLogin } from "@/service/User";
+import { apiLogin } from "@/service/User";
 import "./styles.css";
 import { useSocket } from "@/context/SocketContext";
 
@@ -37,43 +37,52 @@ function App(props: PropsWithChildren) {
     return initData && initData.user ? initData.user : undefined;
   }, [initData]);
 
-  // const token = useGlobalStore((state) => state.token);
-  // const login = async () => {
-  //   if (token.length > 0) return;
-  //   const loginResult = await apiLogin({
-  //     telegramId: user?.id + "",
-  //     firstName: user?.firstName ?? "",
-  //     lastName: user?.lastName ?? "",
-  //     languageCode: user?.languageCode ?? "",
-  //     isVip: user?.isPremium ?? false,
-  //     referralCode: lp.startParam,
-  //     init: lp.initDataRaw,
-  //   });
-  //   console.log(loginResult);
-  // };
+  const token = useGlobalStore((state) => state.token);
+  const login = async () => {
+    if (token.length > 0) return;
+    const loginResult = await apiLogin({
+      telegramId: user?.id + "",
+      firstName: user?.firstName ?? "",
+      lastName: user?.lastName ?? "",
+      languageCode: user?.languageCode ?? "",
+      isVip: user?.isPremium ?? false,
+      referralCode: lp.startParam,
+      init: lp.initDataRaw,
+    });
+    console.log(loginResult);
+  };
 
   let prevUser: User | undefined = undefined;
+
+  const getRankData = () => {
+    socket?.emit("ranks", (data: UserRankData[]) => {
+      useGlobalStore.setState({ userRankData: data });
+    });
+  };
 
   useEffect(() => {
     if (user !== prevUser) {
       if (!user) return;
       useGlobalStore.setState({ tgUser: user });
-      // login();
+      login();
       prevUser = user; // 更新 prevUser 以记录当前的 user 值
     }
   }, [user]);
 
   useEffect(() => {
-    const getHomeData = () => {
-      socket?.emit("homeData", (data: UserSocketData) => {
-        useGlobalStore.setState({ userSocketData: data });
+    if (token.length > 0) {
+      getRankData();
+      socket?.emit("user", (data: UserInfo) => {
+        useGlobalStore.setState({ userInfo: data });
       });
-    };
+    }
+  }, [token, socket]);
+
+  useEffect(() => {
     // 设置一个定时器，每秒调用一次
     const intervalId = setInterval(() => {
-      getHomeData();
+      getRankData();
     }, 1000);
-    getHomeData();
     return () => clearInterval(intervalId);
   }, [socket]);
 

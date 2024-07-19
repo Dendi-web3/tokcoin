@@ -29,7 +29,7 @@ export enum ResultEnum {
 
 const config = {
   // 默认地址请求地址，可在 .env.** 文件中修改
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://34.97.26.232/"}`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_URL ?? "https://livegame-service-kosvlhf7ca-ew.a.run.app"}`,
   // 设置超时时间
   timeout: ResultEnum.TIMEOUT as number,
   // 跨域时候允许携带凭证
