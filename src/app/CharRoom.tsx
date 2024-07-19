@@ -14,7 +14,7 @@ export default function ChatRoom() {
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"
       style={{
-        backgroundImage: "url('/background.jpg')",
+        backgroundImage: "url('/background.png')",
       }}
     >
       <div
@@ -237,7 +237,7 @@ export default function ChatRoom() {
           }}
         >
           <div className=" items-start  mb-2">
-            <div className="flex items-center ">
+            <div className="flex items-center  space-x-2">
               <img
                 src="/avatar.png"
                 alt="Ava profile picture"
