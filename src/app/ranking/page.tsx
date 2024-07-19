@@ -10,7 +10,6 @@ export default function Widget() {
   const data: UserRankData[] | undefined = useGlobalStore(
     (x) => x.userRankData
   );
-  const data2 = data?.concat(data);
 
   const me = data?.find((x) => x.isMe);
   return (
@@ -55,7 +54,7 @@ export default function Widget() {
             window.innerHeight - (window.innerWidth / 390) * 302 - 21 - 84,
         }}
       >
-        {data2?.map((x: UserRankData, i) => {
+        {data?.map((x: UserRankData, i) => {
           if (i < 3) return;
           return <RankingItem key={i} {...x} />;
         })}
