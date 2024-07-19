@@ -17,6 +17,7 @@ const Home = () => {
   const socket = useSocket();
 
   function onTap(event: Event, info: TapInfo) {
+    event.preventDefault();
     console.log("posiotin on screen:", info.point.x, info.point.y);
     socket?.emit("inClick", (data: UserRankData[]) => {
       console.log("inClick", data);
@@ -42,7 +43,14 @@ const Home = () => {
       setBonus((prevBonus) =>
         prevBonus.filter((bonus) => bonus.id !== newBonus.id)
       );
-    }, 1.5 * 1000);
+    }, 2 * 1000);
+  };
+  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault(); // 阻止鼠标按下事件
+  };
+
+  const handleMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault(); // 阻止鼠标释放事件
   };
 
   return (
@@ -64,31 +72,56 @@ const Home = () => {
           {bonus.map((b) => (
             <motion.div
               key={b.id}
-              initial={{ opacity: 1, y: 0, x: 0 }}
+              initial={{
+                opacity: 1,
+                y: 0,
+                x: 0,
+                pointerEvents: "none", // 禁用圆圈响应点击事件
+                userSelect: "none",
+              }}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
               animate={{
-                opacity: 0,
-                y: -88,
-                x: -25,
+                rotate: [14, -6, 9],
+                scale: [0, 1, 1, 0],
+                y: [0, -203],
+                opacity: [1, 0], // Animate opacity from 1 to 0
+                pointerEvents: "none", // Prevent ripples from capturing mouse events
+                userSelect: "none",
+              }}
+              transition={{
+                duration: 2,
+                repeat: 0, // No repeating, only a single animation sequence
+                ease: "easeInOut",
               }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.5 }}
-              className="absolute text-3xl font-bold"
+              className="absolute noselect"
               style={{
                 position: "absolute",
                 left: b.x,
                 top: b.y,
                 pointerEvents: "none", // Prevent ripples from capturing mouse events
+                zIndex: 10,
               }}
             >
-              <div className="flex items-center justify-center">
-                <Image
-                  src="/heart.png"
+              <div
+                className="flex items-center justify-center noselect"
+                style={{
+                  pointerEvents: "none", // 禁用圆圈响应点击事件
+                  userSelect: "none",
+                }}
+              >
+                <img
+                  src="/heart3.png"
                   alt="coin"
-                  className="mr-2 rounded-full"
-                  width={20}
-                  height={20}
+                  className="rounded-full noselect w-[40px] h-[40px]"
+                  width={40}
+                  height={40}
+                  style={{
+                    pointerEvents: "none", // 禁用圆圈响应点击事件
+                    userSelect: "none",
+                  }}
                 />
-                <span className="text-sm text-white">+{1}</span>
               </div>
             </motion.div>
           ))}
@@ -102,11 +135,13 @@ const Home = () => {
           top: "104px",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          // backgroundColor: "red",
           width: "100%",
           height: "calc(100vh - 104px)",
           zIndex: "50",
+          userSelect: "none",
         }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
         onTap={onTap}
       ></motion.div>
     </div>
