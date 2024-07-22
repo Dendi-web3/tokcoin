@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
-import type { TapInfo } from "framer-motion";
 import Image from "next/image";
 import ChatRoom from "./CharRoom";
 import { useSocket } from "@/context/SocketContext";
