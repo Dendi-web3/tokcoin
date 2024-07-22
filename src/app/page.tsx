@@ -45,14 +45,6 @@ const Home = () => {
       );
     }, 2 * 1000);
   };
-  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault(); // 阻止鼠标按下事件
-  };
-
-  const handleMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault(); // 阻止鼠标释放事件
-  };
-
   return (
     <div className="relative min-h-[100vh] w-full bg-[#ffffff00]">
       <ChatRoom />
@@ -79,8 +71,6 @@ const Home = () => {
                 pointerEvents: "none", // 禁用圆圈响应点击事件
                 userSelect: "none",
               }}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
               animate={{
                 rotate: [14, -6, 9],
                 scale: [0, 1, 1, 0],
@@ -140,8 +130,6 @@ const Home = () => {
           zIndex: "50",
           userSelect: "none",
         }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
         onTap={onTap}
       ></motion.div>
     </div>
