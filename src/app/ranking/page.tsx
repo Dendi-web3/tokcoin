@@ -64,7 +64,7 @@ export default function Widget() {
       </div>
       {me ? (
         <div
-          className="absolute bottom-0 h-[84px] flex items-center justify-center"
+          className="absolute bottom-0 h-[84px] flex items-center justify-center bg-white"
           style={{
             width: "100%",
             borderTop: "0.5px solid #E1E0E0",
