@@ -16,9 +16,8 @@ const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const socket = useSocket();
 
-  function onTap(event: Event, info: TapInfo) {
+  const onTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
-    console.log("posiotin on screen:", info.point.x, info.point.y);
     socket?.emit("inClick", (data: UserRankData[]) => {
       console.log("inClick", data);
     });
@@ -27,8 +26,8 @@ const Home = () => {
     } else {
       window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
-    addBonus(info.point.x - 15, info.point.y - 15 - 104);
-  }
+    addBonus(event.clientX - 15, event.clientY - 15 - 104);
+  };
 
   const addBonus = (x: number, y: number) => {
     const newBonus: Bonus = {
@@ -52,13 +51,13 @@ const Home = () => {
         className="noselect "
         style={{
           zIndex: 70,
-          pointerEvents: "none", // 禁用圆圈响应点击事件
           position: "absolute",
           top: "104px",
           width: "100vw",
           height: "calc(100vh - 104px)",
           overflow: "hidden",
         }}
+        onClick={onTap}
       >
         <AnimatePresence>
           {bonus.map((b) => (
@@ -69,7 +68,6 @@ const Home = () => {
                 y: 0,
                 x: 0,
                 pointerEvents: "none", // 禁用圆圈响应点击事件
-                userSelect: "none",
               }}
               animate={{
                 rotate: [14, -6, 9],
@@ -77,7 +75,6 @@ const Home = () => {
                 y: [0, -203],
                 opacity: [1, 0], // Animate opacity from 1 to 0
                 pointerEvents: "none", // Prevent ripples from capturing mouse events
-                userSelect: "none",
               }}
               transition={{
                 duration: 2,
@@ -98,7 +95,6 @@ const Home = () => {
                 className="flex items-center justify-center noselect"
                 style={{
                   pointerEvents: "none", // 禁用圆圈响应点击事件
-                  userSelect: "none",
                 }}
               >
                 <Image
@@ -109,7 +105,6 @@ const Home = () => {
                   height={60}
                   style={{
                     pointerEvents: "none", // 禁用圆圈响应点击事件
-                    userSelect: "none",
                   }}
                 />
               </div>
@@ -117,21 +112,6 @@ const Home = () => {
           ))}
         </AnimatePresence>
       </div>
-
-      <motion.div
-        className="noselect"
-        style={{
-          position: "absolute",
-          top: "104px",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          width: "100%",
-          height: "calc(100vh - 104px)",
-          zIndex: "50",
-          userSelect: "none",
-        }}
-        onTap={onTap}
-      ></motion.div>
     </div>
   );
 };
