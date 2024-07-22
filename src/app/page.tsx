@@ -61,14 +61,12 @@ const Home = () => {
                 opacity: 1,
                 y: 0,
                 x: 0,
-                pointerEvents: "none", // 禁用圆圈响应点击事件
               }}
               animate={{
                 rotate: [14, -6, 9],
                 scale: [0, 1, 1, 0],
                 y: [0, -203],
                 opacity: [1, 0], // Animate opacity from 1 to 0
-                pointerEvents: "none", // Prevent ripples from capturing mouse events
               }}
               transition={{
                 duration: 2,
@@ -81,8 +79,6 @@ const Home = () => {
                 position: "absolute",
                 left: b.x,
                 top: b.y,
-                pointerEvents: "none", // Prevent ripples from capturing mouse events
-                zIndex: 10,
               }}
             >
               <div
