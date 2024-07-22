@@ -16,13 +16,13 @@ const Home = () => {
   const socket = useSocket();
   const bubbleW = 60;
   const onTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    addBonus(event.clientX - bubbleW / 2, event.clientY - bubbleW / 2);
     socket?.emit("inClick");
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {
       window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
-    addBonus(event.clientX - bubbleW / 2, event.clientY - bubbleW / 2);
   };
 
   const addBonus = (x: number, y: number) => {
