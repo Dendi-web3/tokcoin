@@ -4,8 +4,12 @@ import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 import { formatNumberKMB } from "../tools/tools";
 
+interface ChatRoomProps {
+  children: React.ReactNode;
+}
+
 /* eslint-disable react/no-unescaped-entities */
-export default function ChatRoom() {
+const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
   const router = useRouter();
@@ -14,11 +18,12 @@ export default function ChatRoom() {
     <div
       className="fixed w-full h-screen bg-cover bg-center z-10"
       style={{
-        backgroundImage: "url('/background.png')",
+        backgroundImage: "url('/background2.png')",
       }}
     >
+      {children}
       <div
-        className="absolute top-0 left-0 w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white"
+        className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
           background:
             "linear-gradient(180deg, #0F0F0F -27.91%, rgba(15, 15, 15, 0.00) 100%)",
@@ -72,6 +77,7 @@ export default function ChatRoom() {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "8px",
+                zIndex: 999,
               }}
               onClick={() => {
                 // window.Telegram.WebApp.showPopup(
@@ -132,6 +138,9 @@ export default function ChatRoom() {
 
           <div
             className=" flex items-center space-x-1"
+            style={{
+              zIndex: 999,
+            }}
             onClick={() => {
               router.push("/ranking");
             }}
@@ -318,4 +327,6 @@ export default function ChatRoom() {
       </div>
     </div>
   );
-}
+};
+
+export default ChatRoom;

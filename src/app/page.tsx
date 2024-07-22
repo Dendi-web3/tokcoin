@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
-import ChatRoom from "./CharRoom";
+import ChatRoom from "./ChatRoom";
 import { useSocket } from "@/context/SocketContext";
 interface Bonus {
   id: string;
@@ -14,18 +14,15 @@ interface Bonus {
 const Home = () => {
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const socket = useSocket();
-
+  const bubbleW = 60;
   const onTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
-    event.preventDefault();
-    socket?.emit("inClick", (data: UserRankData[]) => {
-      console.log("inClick", data);
-    });
+    socket?.emit("inClick");
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {
       window.Telegram.WebApp.HapticFeedback.impactOccurred("heavy");
     }
-    addBonus(event.clientX - 15, event.clientY - 15 - 104);
+    addBonus(event.clientX - bubbleW / 2, event.clientY - bubbleW / 2);
   };
 
   const addBonus = (x: number, y: number) => {
@@ -44,16 +41,14 @@ const Home = () => {
     }, 2 * 1000);
   };
   return (
-    <div className="relative min-h-[100vh] w-full bg-[#ffffff00]">
-      <ChatRoom />
+    <ChatRoom>
       <div
-        className="noselect "
+        className="noselect bg-[#ffffff00]"
         style={{
           zIndex: 70,
           position: "absolute",
-          top: "104px",
           width: "100vw",
-          height: "calc(100vh - 104px)",
+          height: "100vh",
           overflow: "hidden",
         }}
         onClick={onTap}
@@ -99,9 +94,9 @@ const Home = () => {
                 <Image
                   src="/heart3.png"
                   alt="coin"
-                  className="rounded-full noselect w-[40px] h-[40px]"
-                  width={60}
-                  height={60}
+                  className="rounded-full noselect"
+                  width={bubbleW}
+                  height={bubbleW}
                   style={{
                     pointerEvents: "none", // 禁用圆圈响应点击事件
                   }}
@@ -111,7 +106,7 @@ const Home = () => {
           ))}
         </AnimatePresence>
       </div>
-    </div>
+    </ChatRoom>
   );
 };
 
