@@ -44,6 +44,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
         backgroundImage: "url('/background2.png')",
       }}
       onClick={() => {
+        console.log("root ");
         const audio: HTMLMediaElement = document.getElementById(
           "myAudio"
         ) as HTMLMediaElement;
@@ -158,44 +159,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                 </p>
               )}
             </button>
-            <button
-              className=" text-white px-2 py-1 rounded-full h-[28px]"
-              style={{
-                background:
-                  "linear-gradient(109deg, #FFA244 14.81%, #FB2A7E 94.2%)",
-                display: "flex",
-                padding: "8px 12px",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "8px",
-                zIndex: 999,
-              }}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                if (audioPlayed) {
-                  const audio: HTMLMediaElement = document.getElementById(
-                    "myAudio"
-                  ) as HTMLMediaElement;
-                  audio?.pause();
-                } else {
-                  const audio: HTMLMediaElement = document.getElementById(
-                    "myAudio"
-                  ) as HTMLMediaElement;
-                  audio?.play();
-                }
-              }}
-            >
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: "12px",
-                }}
-              >
-                {!audioPlayed ? "Play Sound" : "Stop Sound"}
-              </p>
-            </button>
           </div>
           <img src="/close.svg" alt="user1" className="w-6 h-6" />
         </div>
@@ -205,6 +168,23 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             style={{
               opacity: " var(--sds-size-stroke-border)",
               background: "rgba(8, 8, 8, 0.20)",
+              zIndex: 999,
+            }}
+            onClick={(event) => {
+              console.log("23232332323");
+              event.preventDefault();
+              event.stopPropagation();
+              if (audioPlayed) {
+                const audio: HTMLMediaElement = document.getElementById(
+                  "myAudio"
+                ) as HTMLMediaElement;
+                audio?.pause();
+              } else {
+                const audio: HTMLMediaElement = document.getElementById(
+                  "myAudio"
+                ) as HTMLMediaElement;
+                audio?.play();
+              }
             }}
           >
             <img
