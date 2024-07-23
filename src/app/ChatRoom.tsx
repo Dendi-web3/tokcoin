@@ -39,9 +39,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   }, []);
   return (
     <div
-      className="fixed w-full h-screen bg-cover bg-center z-10"
+      className="fixed w-full bg-cover bg-center z-10"
       style={{
         backgroundImage: "url('/background2.png')",
+        height: "var(--tg-viewport-stable-height)",
       }}
       onClick={() => {
         console.log("root ");

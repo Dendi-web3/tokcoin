@@ -13,7 +13,12 @@ export default function Widget() {
 
   const me = data?.find((x) => x.isMe);
   return (
-    <div className="bg-[#F5F3F3] h-full">
+    <div
+      className="bg-[#F5F3F3]"
+      style={{
+        height: "var(--tg-viewport-stable-height)",
+      }}
+    >
       <div
         className="flex items-center space-x-2 h-[64px] z-50  fixed top-0 p-4"
         onClick={() => {
