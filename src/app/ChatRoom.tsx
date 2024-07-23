@@ -12,6 +12,8 @@ interface ChatRoomProps {
 /* eslint-disable react/no-unescaped-entities */
 const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const [audioPlayed, setAudioPlayed] = useState(false);
+  const [playOnce, setPlayOnce] = useState(false);
+
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
   const router = useRouter();
@@ -45,7 +47,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
         height: window.innerHeight,
       }}
       onClick={() => {
-        console.log("root ");
+        if (playOnce) return;
+        setPlayOnce(true);
         const audio: HTMLMediaElement = document.getElementById(
           "myAudio"
         ) as HTMLMediaElement;
@@ -53,7 +56,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       }}
     >
       {children}
-      <video
+      <audio
         controls={true}
         autoPlay={true}
         loop={true}
@@ -64,7 +67,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
           src="https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2022/02/18/18a_hbx/01.mp3"
           type="audio/mpeg"
         />
-      </video>
+      </audio>
       <div
         className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
