@@ -43,7 +43,7 @@ const Home = () => {
   return (
     <ChatRoom>
       <div
-        className="noselect bg-[#ffffff00]"
+        className="noselect bg-[#ff0000]"
         style={{
           zIndex: 70,
           position: "absolute",

@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " w-full bg-[#F5F3F3]"}>
+      <body className={inter.className + " w-full bg-[#00FF00]"}>
         <SocketProvider>
           <Root>{children}</Root>
         </SocketProvider>
