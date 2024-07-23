@@ -18,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " w-full bg-[#00FF00]"}>
+      <body
+        className={inter.className + " w-full bg-[#00FF00]"}
+        style={{
+          overflow: "hidden",
+          height: "var(--tg-viewport-stable-height)",
+        }}
+      >
         <SocketProvider>
           <Root>{children}</Root>
         </SocketProvider>
