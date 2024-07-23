@@ -48,7 +48,7 @@ const Home = () => {
           zIndex: 70,
           position: "absolute",
           width: "100vw",
-          height: "var(--tg-viewport-stable-height)",
+          height: window.innerHeight,
           overflow: "hidden",
         }}
         onClick={onTap}

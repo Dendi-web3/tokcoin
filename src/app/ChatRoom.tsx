@@ -42,7 +42,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       className="fixed w-full bg-cover bg-center z-10"
       style={{
         backgroundImage: "url('/background2.png')",
-        height: "var(--tg-viewport-stable-height)",
+        height: window.innerHeight,
       }}
       onClick={() => {
         console.log("root ");

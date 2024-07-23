@@ -16,7 +16,7 @@ export default function Widget() {
     <div
       className="bg-[#0000FF]"
       style={{
-        height: "var(--tg-viewport-stable-height)",
+        height: window.innerHeight,
       }}
     >
       <div
