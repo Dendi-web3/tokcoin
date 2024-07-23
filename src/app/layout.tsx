@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={inter.className + " w-full bg-[#00FF00]"}
+        className={inter.className + " w-full bg-[#F5F3F3]"}
         style={{
           overflow: "hidden",
           height: "var(--tg-viewport-stable-height)",

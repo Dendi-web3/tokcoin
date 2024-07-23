@@ -14,7 +14,7 @@ export default function Widget() {
   const me = data?.find((x) => x.isMe);
   return (
     <div
-      className="bg-[#0000FF]"
+      className="bg-[#F5F3F3]"
       style={{
         height: window.innerHeight,
       }}
