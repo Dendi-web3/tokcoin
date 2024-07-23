@@ -2,7 +2,6 @@
 import { useSocket } from "@/context/SocketContext";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { formatNumberKMB } from "../tools/tools";
 
 interface ChatRoomProps {
@@ -11,34 +10,12 @@ interface ChatRoomProps {
 
 /* eslint-disable react/no-unescaped-entities */
 const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
-  const [audioPlayed, setAudioPlayed] = useState(false);
-  const [playOnce, setPlayOnce] = useState(false);
-
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
   const router = useRouter();
   const socket = useSocket();
+  const playedOnce = useGlobalStore((x) => x.playedOnce);
 
-  useEffect(() => {
-    const audio: HTMLMediaElement = document.getElementById(
-      "myAudio"
-    ) as HTMLMediaElement;
-    const handleAudioPlay = () => {
-      console.log("audio play");
-      setAudioPlayed(true);
-    };
-    const handleAudioPause = () => {
-      console.log("audio pause");
-      setAudioPlayed(false);
-    };
-    // 监听播放事件
-    audio?.addEventListener("play", handleAudioPlay);
-    audio?.addEventListener("pause", handleAudioPause);
-    return () => {
-      audio?.removeEventListener("play", handleAudioPlay);
-      audio?.removeEventListener("pause", handleAudioPlay);
-    };
-  }, []);
   return (
     <div
       className="fixed w-full bg-cover bg-center z-10"
@@ -47,8 +24,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
         height: window.innerHeight,
       }}
       onClick={() => {
-        if (playOnce) return;
-        setPlayOnce(true);
+        if (playedOnce) return;
+        useGlobalStore.setState({ playedOnce: true });
         const audio: HTMLMediaElement = document.getElementById(
           "myAudio"
         ) as HTMLMediaElement;
@@ -56,18 +33,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       }}
     >
       {children}
-      <audio
-        controls={true}
-        autoPlay={true}
-        loop={true}
-        id="myAudio"
-        style={{ display: "none" }}
-      >
-        <source
-          src="https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2022/02/18/18a_hbx/01.mp3"
-          type="audio/mpeg"
-        />
-      </audio>
+
       <div
         className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
@@ -125,7 +91,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                 gap: "8px",
                 zIndex: 999,
               }}
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
                 // window.Telegram.WebApp.showPopup(
                 //   {
                 //     title: "title",
@@ -175,19 +143,15 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               zIndex: 999,
             }}
             onClick={(event) => {
-              console.log("23232332323");
               event.preventDefault();
               event.stopPropagation();
-              if (audioPlayed) {
-                const audio: HTMLMediaElement = document.getElementById(
-                  "myAudio"
-                ) as HTMLMediaElement;
-                audio?.pause();
-              } else {
-                const audio: HTMLMediaElement = document.getElementById(
-                  "myAudio"
-                ) as HTMLMediaElement;
+              const audio: HTMLMediaElement = document.getElementById(
+                "myAudio"
+              ) as HTMLMediaElement;
+              if (audio.paused) {
                 audio?.play();
+              } else {
+                audio?.pause();
               }
             }}
           >
@@ -204,7 +168,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             style={{
               zIndex: 999,
             }}
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
               router.push("/ranking");
             }}
           >
