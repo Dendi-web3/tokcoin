@@ -17,6 +17,7 @@ export interface GlobalStoreProps {
   referralData: ReferralData | undefined;
   taskList: SocialTask[] | undefined;
   playedOnce: boolean;
+  spining: boolean;
 }
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   token: "",
@@ -30,6 +31,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   taskList: undefined,
   playedOnce: false,
   userRankData: undefined,
+  spining: false,
 }));
 
 export default useGlobalStore;

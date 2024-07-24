@@ -22,7 +22,8 @@
     "zustand": "4.5.0",
     "axios": "^1.7.2",
     "eruda": "^3.0.1",
-    "socket.io-client": "4.7.5"
+    "socket.io-client": "4.7.5",
+    "swiper": "^11.1.4"
   },
   "devDependencies": {
     "@types/node": "^20",
