@@ -5,6 +5,7 @@ import Script from "next/script";
 import { SocketProvider } from "@/context/SocketContext";
 import { Root } from "@/components/root/Root";
 const inter = Inter({ subsets: ["latin"] });
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,6 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
       <body
         className={inter.className + " w-full bg-[#F5F3F3]"}
         style={{
