@@ -16,7 +16,7 @@ export interface GlobalStoreProps {
   signinData: SigninData | undefined;
   referralData: ReferralData | undefined;
   taskList: SocialTask[] | undefined;
-  hideNav: boolean;
+  playedOnce: boolean;
 }
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   token: "",
@@ -28,7 +28,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   signinData: undefined,
   referralData: undefined,
   taskList: undefined,
-  hideNav: false,
+  playedOnce: false,
   userRankData: undefined,
 }));
 

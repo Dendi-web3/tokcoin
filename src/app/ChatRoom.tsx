@@ -2,7 +2,6 @@
 import { useSocket } from "@/context/SocketContext";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { formatNumberKMB } from "../tools/tools";
 
 interface ChatRoomProps {
@@ -11,39 +10,22 @@ interface ChatRoomProps {
 
 /* eslint-disable react/no-unescaped-entities */
 const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
-  const [audioPlayed, setAudioPlayed] = useState(false);
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
   const router = useRouter();
   const socket = useSocket();
+  const playedOnce = useGlobalStore((x) => x.playedOnce);
 
-  useEffect(() => {
-    const audio: HTMLMediaElement = document.getElementById(
-      "myAudio"
-    ) as HTMLMediaElement;
-    const handleAudioPlay = () => {
-      console.log("audio play");
-      setAudioPlayed(true);
-    };
-    const handleAudioPause = () => {
-      console.log("audio pause");
-      setAudioPlayed(false);
-    };
-    // 监听播放事件
-    audio?.addEventListener("play", handleAudioPlay);
-    audio?.addEventListener("pause", handleAudioPause);
-    return () => {
-      audio?.removeEventListener("play", handleAudioPlay);
-      audio?.removeEventListener("pause", handleAudioPlay);
-    };
-  }, []);
   return (
     <div
-      className="fixed w-full h-screen bg-cover bg-center z-10"
+      className="fixed w-full bg-cover bg-center z-10"
       style={{
         backgroundImage: "url('/background2.png')",
+        height: window.innerHeight,
       }}
       onClick={() => {
+        if (playedOnce) return;
+        useGlobalStore.setState({ playedOnce: true });
         const audio: HTMLMediaElement = document.getElementById(
           "myAudio"
         ) as HTMLMediaElement;
@@ -51,18 +33,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       }}
     >
       {children}
-      <video
-        controls={true}
-        autoPlay={true}
-        loop={true}
-        id="myAudio"
-        style={{ display: "none" }}
-      >
-        <source
-          src="https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2022/02/18/18a_hbx/01.mp3"
-          type="audio/mpeg"
-        />
-      </video>
+
       <div
         className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
@@ -120,7 +91,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                 gap: "8px",
                 zIndex: 999,
               }}
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
                 // window.Telegram.WebApp.showPopup(
                 //   {
                 //     title: "title",
@@ -158,44 +131,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                 </p>
               )}
             </button>
-            <button
-              className=" text-white px-2 py-1 rounded-full h-[28px]"
-              style={{
-                background:
-                  "linear-gradient(109deg, #FFA244 14.81%, #FB2A7E 94.2%)",
-                display: "flex",
-                padding: "8px 12px",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "8px",
-                zIndex: 999,
-              }}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                if (audioPlayed) {
-                  const audio: HTMLMediaElement = document.getElementById(
-                    "myAudio"
-                  ) as HTMLMediaElement;
-                  audio?.pause();
-                } else {
-                  const audio: HTMLMediaElement = document.getElementById(
-                    "myAudio"
-                  ) as HTMLMediaElement;
-                  audio?.play();
-                }
-              }}
-            >
-              <p
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: "12px",
-                }}
-              >
-                {!audioPlayed ? "Play Sound" : "Stop Sound"}
-              </p>
-            </button>
           </div>
           <img src="/close.svg" alt="user1" className="w-6 h-6" />
         </div>
@@ -205,6 +140,19 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             style={{
               opacity: " var(--sds-size-stroke-border)",
               background: "rgba(8, 8, 8, 0.20)",
+              zIndex: 999,
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              const audio: HTMLMediaElement = document.getElementById(
+                "myAudio"
+              ) as HTMLMediaElement;
+              if (audio.paused) {
+                audio?.play();
+              } else {
+                audio?.pause();
+              }
             }}
           >
             <img
@@ -220,7 +168,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             style={{
               zIndex: 999,
             }}
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
               router.push("/ranking");
             }}
           >

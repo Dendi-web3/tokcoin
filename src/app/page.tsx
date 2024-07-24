@@ -48,7 +48,7 @@ const Home = () => {
           zIndex: 70,
           position: "absolute",
           width: "100vw",
-          height: "100vh",
+          height: window.innerHeight,
           overflow: "hidden",
         }}
         onClick={onTap}

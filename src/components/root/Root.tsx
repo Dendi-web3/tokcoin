@@ -104,6 +104,18 @@ function App(props: PropsWithChildren) {
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
       {props.children}
+      <audio
+        controls={true}
+        autoPlay={true}
+        loop={true}
+        id="myAudio"
+        style={{ display: "none" }}
+      >
+        <source
+          src="https://96.f.1ting.com/local_to_cube_202004121813/96kmp3/2022/02/18/18a_hbx/01.mp3"
+          type="audio/mpeg"
+        />
+      </audio>
     </AppRoot>
   );
 }
