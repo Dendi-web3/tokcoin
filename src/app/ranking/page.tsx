@@ -53,8 +53,10 @@ export default function Widget() {
       />
       <RankingTop height={(window.innerWidth / 390) * 302 - 49 - 28} />
       <div
-        className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px]"
+        className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px] overflow-y-auto scrollbar-w-0 scrollbar-width-none"
         style={{
+          scrollbarWidth: "none",
+          // scrollbarWidth: "none",
           height:
             window.innerHeight -
             (window.innerWidth / 390) * 302 -
