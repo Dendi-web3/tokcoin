@@ -160,18 +160,18 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               )}
             </button>
           </div>
-          <div className="flex flex-row items-center">
-            <div
-              className=" flex items-center space-x-[-8px]"
-              style={{
-                zIndex: 999,
-              }}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                router.push("/ranking");
-              }}
-            >
+          <div
+            className="flex flex-row items-center"
+            style={{
+              zIndex: 999,
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              router.push("/ranking");
+            }}
+          >
+            <div className=" flex items-center space-x-[-8px]">
               <img
                 src="/m1.png"
                 alt="user1"
