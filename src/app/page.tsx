@@ -57,6 +57,11 @@ const Home = () => {
           {bonus.map((b) => (
             <motion.div
               key={b.id}
+              initial={{
+                opacity: 1,
+                y: 0,
+                x: 0,
+              }}
               animate={{
                 rotate: [14, -6, 9],
                 scale: [0, 1, 1, 0],
@@ -66,7 +71,7 @@ const Home = () => {
               transition={{
                 duration: 2,
                 repeat: 0, // No repeating, only a single animation sequence
-                // ease: "easeInOut",
+                ease: "easeInOut",
               }}
               exit={{ opacity: 0 }}
               className="absolute noselect"
