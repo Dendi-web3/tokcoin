@@ -4,7 +4,7 @@ import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { formatNumberKMB } from "../tools/tools";
-import { Swiper, SwiperSlide, SwiperClass, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 
@@ -116,21 +116,21 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                // window.Telegram.WebApp.showPopup(
-                //   {
-                //     title: "title",
-                //     message: "Confirm to unfollow?",
-                //     buttons: [
-                //       { id: "Confirm", type: "default", text: "Confirm" },
-                //       { id: "Cancel", type: "destructive", text: "Cancel" },
-                //     ],
-                //   },
-                //   function (buttonId: any) {
-                //     console.log("x", buttonId);
-                //   }
-                // );
+                window.Telegram.WebApp.showPopup(
+                  {
+                    title: "title",
+                    message: "Confirm to unfollow?",
+                    buttons: [
+                      { id: "Confirm", type: "default", text: "Confirm" },
+                      { id: "Cancel", type: "destructive", text: "Cancel" },
+                    ],
+                  },
+                  function (buttonId: string) {
+                    console.log("x", buttonId);
+                  }
+                );
                 socket?.emit("follow", (data: UserInfo) => {
-                  console.log("follow", data);
+                  // console.log("follow", data);
                   useGlobalStore.setState({ userInfo: data });
                 });
               }}
