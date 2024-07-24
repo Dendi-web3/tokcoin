@@ -7,6 +7,7 @@ import { formatNumberKMB } from "../tools/tools";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import { usePopup } from "@tma.js/sdk-react";
 
 interface ChatRoomProps {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+  const popup = usePopup();
   useEffect(() => {
     const audio: HTMLMediaElement = document.getElementById(
       "myAudio"
@@ -116,23 +118,27 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                // window.Telegram.WebApp.showPopup(
-                //   {
-                //     title: "title",
-                //     message: "Confirm to unfollow?",
-                //     buttons: [
-                //       { id: "Confirm", type: "default", text: "Confirm" },
-                //       { id: "Cancel", type: "destructive", text: "Cancel" },
-                //     ],
-                //   },
-                //   function (buttonId: string) {
-                //     console.log("x", buttonId);
-                //   }
-                // );
-                socket?.emit("follow", (data: UserInfo) => {
-                  // console.log("follow", data);
-                  useGlobalStore.setState({ userInfo: data });
-                });
+                if (follow) {
+                  popup
+                    .open({
+                      message: "Confirm to unfollow?",
+                      buttons: [
+                        { id: "Confirm", type: "default", text: "Confirm" },
+                        { id: "Cancel", type: "destructive", text: "Cancel" },
+                      ],
+                    })
+                    .then((x) => {
+                      if (x === "Confirm") {
+                        socket?.emit("follow", (data: UserInfo) => {
+                          useGlobalStore.setState({ userInfo: data });
+                        });
+                      }
+                    });
+                } else {
+                  socket?.emit("follow", (data: UserInfo) => {
+                    useGlobalStore.setState({ userInfo: data });
+                  });
+                }
               }}
             >
               {follow ? (
@@ -144,10 +150,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               ) : (
                 <p
                   style={{
-                    fontSize: 8,
+                    fontSize: "8px",
                     fontWeight: 500,
                     lineHeight: "20px",
-                    marginTop: "2px",
                   }}
                 >
                   Follow
