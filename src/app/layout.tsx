@@ -36,6 +36,10 @@ export default function RootLayout({
           <Root>{children}</Root>
         </SocketProvider>
         <Script src="/js/telegram-web-app.js" strategy="beforeInteractive" />
+        <Script
+          src="https://code.createjs.com/1.0.0/preloadjs.min.js"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
