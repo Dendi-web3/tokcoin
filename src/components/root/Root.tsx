@@ -98,13 +98,6 @@ function App(props: PropsWithChildren) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
-  useEffect(() => {
-    const preload = new window.createjs.LoadQueue();
-    preload.loadFile("/rank_bg.png");
-    preload.loadFile("/heart4.png");
-    preload.loadFile("/rank_top.jpeg");
-  }, []);
-
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}

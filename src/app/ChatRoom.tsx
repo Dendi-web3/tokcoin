@@ -54,10 +54,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
 
   return (
     <div
-      className="fixed w-full bg-cover bg-center z-10"
+      className="w-full bg-cover bg-center z-10"
       style={{
         backgroundImage: "url('/background2.png')",
-        height: window.innerHeight,
+        // height: window.innerHeight,
+        height: "var(--tg-viewport-stable-height)",
       }}
       onClick={() => {
         if (playedOnce) return;
