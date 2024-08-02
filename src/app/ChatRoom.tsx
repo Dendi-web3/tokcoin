@@ -1,13 +1,14 @@
 // import { useState } from "react";
 import { useSocket } from "@/context/SocketContext";
 import useGlobalStore from "@/store/useGlobalStore";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { formatNumberKMB } from "../tools/tools";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { usePopup } from "@tma.js/sdk-react";
+import BottomSheet, { BottomSheetRefs } from "@/components/common/BottomSheet";
+import LikeIcon from '@/assets/like.svg';
 
 interface ChatRoomProps {
   children: React.ReactNode;
@@ -17,12 +18,26 @@ interface ChatRoomProps {
 const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
-  const router = useRouter();
   const socket = useSocket();
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
+  const userRankData = useGlobalStore((x) => x.userRankData);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const popup = usePopup();
+  const viewersRef = useRef<BottomSheetRefs>(null);
+  const streamerId = "66ac7e81faa2078166226464";
+  const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData])
+
+  useEffect(() => {
+    // 设置一个定时器，每秒调用一次
+    const intervalId = setInterval(() => {
+      socket?.emit("ranks", { streamerId }, (data: UserRankData[]) => {
+        useGlobalStore.setState({ userRankData: data });
+      });
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [socket, streamerId]);
+
   useEffect(() => {
     const audio: HTMLMediaElement = document.getElementById(
       "myAudio"
@@ -169,7 +184,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             onClick={(event) => {
               event.preventDefault();
               event.stopPropagation();
-              router.push("/ranking");
+              viewersRef.current?.open();
             }}
           >
             <div className=" flex items-center space-x-[-8px]">
@@ -190,7 +205,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               />
             </div>
             <span
-              className="text-[10px] text-white h-[20px] ml-[-4px] px-[5px] rounded-full"
+              className="text-[10px] text-white h-[20px] ml-[4px] mr-[8px] px-[5px] rounded-full"
               style={{
                 fontWeight: 400,
                 lineHeight: "20px",
@@ -202,6 +217,40 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             <img src="/close.svg" alt="user1" className="w-[16px] h-[16px]" />
           </div>
         </div>
+        <BottomSheet ref={viewersRef}>
+          <div className="text-[#939393] text-sm leading-none px-8 py-4">Top Viewers</div>
+          <div className="flex-1 bg-white rounded-t-[32px] p-4 overflow-y-auto overflow-x-hidden">
+            {(userRankData ?? []).map((item) => (
+              <div 
+                key={item.username}
+                className="h-[56px] flex items-center p-3 rounded-xl gap-3 text-xs font-medium"
+                style={{ 
+                  background: item.isMe ? 'linear-gradient(114deg, #FFACAC 2.47%, rgba(255, 196, 196, 0.50) 92.92%)' : 'transparent',
+                  color: item.isMe ? '#000' : 'inherit',
+                }}
+              >
+                <div className="h-4 w-4 text-center">{item.rank}</div>
+                <img src="/default_avatar.png" alt={item.username} className="w-8 h-8 rounded-full" />
+                <div>{item.isMe ? 'You' : item.username}</div>
+                <div className="flex items-center flex-1 justify-end font-light" style={{ color: item.isMe ? '#000' : '#FFACAC' }}>
+                  {Intl.NumberFormat().format(item.point * 1000 ?? 0)}
+                  <LikeIcon className="w-6 h-6" />
+                </div>
+              </div>
+            ))}
+          </div>
+          {!!me && (
+            <div className="bg-white p-6 border-t-[#E1E0E0] border-t-solid border-[1px] flex items-center gap-4">
+              <div className="h-4 w-4 text-center text-[10px]">{me.rank > 99 ? '99+' : me.rank}</div>
+              <img src="/default_avatar.png" alt={me.username} className="w-10 h-10 rounded-full" />
+              <div className="text-[#352D35] font-semibold text-[14px]">{me.username}</div>
+              <div className="flex items-center flex-1 gap-2 justify-end text-[12px] font-medium text-[#17142E]">
+                {Intl.NumberFormat().format(me.point * 1000 ?? 0)}
+                <LikeIcon className="w-6 h-6" />
+              </div>
+            </div>
+          )}
+        </BottomSheet>
         <div className="w-full flex items-center justify-end">
           <div
             className=" h-[42px]  w-[52px] relative"
