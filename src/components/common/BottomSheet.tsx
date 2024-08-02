@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, PropsWithChildren } from 'react';
 
 interface BottomSheetProps {
   onClose?: () => void;
   zIndex?: number;
-  children: React.ReactNode;
+  header?: React.ReactNode;
+  className?: string
 }
 export interface BottomSheetRefs {
   toggle: () => void;
@@ -13,8 +14,8 @@ export interface BottomSheetRefs {
   close: () => void;
 }
 
-const BottomSheet = forwardRef<BottomSheetRefs, BottomSheetProps>(
-  ({ children, zIndex = 999, onClose }, ref) => {
+const BottomSheet = forwardRef<BottomSheetRefs, PropsWithChildren<BottomSheetProps>>(
+  ({ children, header, zIndex = 999, className, onClose }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -32,12 +33,15 @@ const BottomSheet = forwardRef<BottomSheetRefs, BottomSheetProps>(
     return (
       <div>
         <div
-          className={`flex overflow-hidden flex-col fixed text-[#4F4F4F] inset-x-0 bottom-0 transform h-[calc(100vh-142px)] bg-[#F5F3F3] ${
+          className={`fixed text-[#4F4F4F] inset-x-0 bottom-0 transform ${
             isOpen ? 'translate-y-0' : 'translate-y-full'
-          } rounded-[32px] transition-transform duration-300 ease-in-out`}
+          } transition-transform duration-300 ease-in-out`}
           style={{ zIndex: zIndex + 1 }}
         >
-          {children}
+          {header}
+          <div className={`flex flex-col rounded-[32px] bg-[#F5F3F3] h-[calc(100vh-142px)] overflow-hidden ${className}`}>
+            {children}
+          </div>
         </div>
         {isOpen && (
           <div

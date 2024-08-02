@@ -18,6 +18,7 @@ export interface GlobalStoreProps {
   taskList: SocialTask[] | undefined;
   playedOnce: boolean;
   spining: boolean;
+  viewHistories: ViewHistory[] | undefined;
 }
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   token: "",
@@ -32,6 +33,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   playedOnce: false,
   userRankData: undefined,
   spining: false,
+  viewHistories: undefined,
 }));
 
 export default useGlobalStore;

@@ -8,7 +8,8 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { usePopup } from "@tma.js/sdk-react";
 import BottomSheet, { BottomSheetRefs } from "@/components/common/BottomSheet";
-import LikeIcon from '@/assets/like.svg';
+import LikeIcon from "@/assets/like.svg";
+import ShareIcon from "@/assets/share.svg";
 
 interface ChatRoomProps {
   children: React.ReactNode;
@@ -22,9 +23,12 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
   const userRankData = useGlobalStore((x) => x.userRankData);
+  const tgUser = useGlobalStore((x) => x.tgUser);
+  const viewHistories = useGlobalStore((x) => x.viewHistories);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const popup = usePopup();
   const viewersRef = useRef<BottomSheetRefs>(null);
+  const viewHistoriesRef = useRef<BottomSheetRefs>(null);
   const streamerId = "66ac7e81faa2078166226464";
   const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData])
 
@@ -217,7 +221,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
             <img src="/close.svg" alt="user1" className="w-[16px] h-[16px]" />
           </div>
         </div>
-        <BottomSheet ref={viewersRef}>
+        <BottomSheet className="overflow-hidden" ref={viewersRef}>
           <div className="text-[#939393] text-sm leading-none px-8 py-4">Top Viewers</div>
           <div className="flex-1 bg-white rounded-t-[32px] p-4 overflow-y-auto overflow-x-hidden">
             {(userRankData ?? []).map((item) => (
@@ -417,7 +421,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       </div>
 
       <div
-        className="flex items-center  space-x-2 absolute bottom-[24px] left-0 mx-[16px]"
+        className="flex items-center  space-x-2 absolute bottom-[24px] left-0 mx-[16px] z-[90]"
         style={{
           width: "calc(100vw - 32px)",
         }}
@@ -449,11 +453,48 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
           className="w-[40px] h-[40px] rounded-full"
         />
         <img
-          src="/heart2.png"
-          alt="Ava profile picture"
+          src="/default_avatar.png"
+          alt="User avatar"
           className="w-[40px] h-[40px] rounded-full"
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            viewHistoriesRef.current?.open();
+          }}
         />
       </div>
+      <BottomSheet 
+        ref={viewHistoriesRef}
+        className="mt-[26px]"
+        header={
+          <div className="flex flex-col items-center absolute top-0 w-full">
+            <img
+              src="/default_avatar.png"
+              alt="User avatar"
+              className="w-16 h-16 rounded-full"
+            />
+            <span className="text-[10px] font-medium leading-[12px] text-[#000] tracking-[-0.1px]">@{tgUser?.firstName}</span>
+          </div>
+        }
+      >
+        <div className="flex flex-col flex-1 mt-[59px] overflow-auto">
+          <div className="text-[14px] flex flex-col leading-[12px] tracking-[-0.14px] px-8 mb-[9px]">Watch History</div>
+          <div className="bg-white rounded-[32px] overflow-y-scroll flex-1 flex flex-col p-4">
+            {viewHistories ? viewHistories.map((item) => (
+              <div key={item.streamerId} className="flex items-center p-3 gap-3">
+                <img src={item.streamerCoverPicture} alt={item.streamerName} className="w-8 h-8 rounded-full" />
+                <div className="flex-1 text-[12px] text-[#4F4F4F] font-medium">{item.streamerName}</div>
+                <a
+                  href={`https://t.me/share/url?url=https://t.me/test`}
+                >
+                  <ShareIcon />
+                </a>
+              </div>
+            )) : <div className="items-center justify-center">Loading...</div>}
+ 
+          </div>
+        </div>
+      </BottomSheet>
     </div>
   );
 };

@@ -45,6 +45,14 @@ declare global {
     init?: string;
   }
 
+  interface ViewHistory {
+    streamerBackgroundMusic: string
+    streamerCoverPicture: string
+    streamerDescription: string
+    streamerId: string
+    streamerName: string
+  }
+
   interface AccessToken {
     accessToken: string;
   }

@@ -82,6 +82,9 @@ function App(props: PropsWithChildren) {
     // 设置一个定时器，每秒调用一次
     const intervalId = setInterval(() => {
       getRankData();
+      socket?.emit("viewerHistory", (data: ViewHistory[]) => {
+        useGlobalStore.setState({ viewHistories: data });
+      });
     }, 1000);
     return () => clearInterval(intervalId);
   }, [socket]);
