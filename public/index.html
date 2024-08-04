@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <button onclick="getRanks()">获取主播用户排名</button>
+
+    <div id="rankdata"></div>
+
+    <button onclick="getStreamer()">获取主播</button>
+    <div id="streamerdata"></div>
+
+    <button onclick="gameClick()">点击</button>
+    <div id="gameData"></div>
+
+    <button onclick="getStreamerLike()">获取主播总点赞数</button>
+    <div id="streamerLikedata"></div>
+
+    <button onclick="followStreamer()">关注主播</button>
+    <div id="followStreamerdata"></div>
+
+    <button onclick="getUserInfo()">获取用户信息加当前主播关注关系</button>
+    <div id="userInfo"></div>
+
+    <button onclick="getStreamerLikeRank()">获取主播点赞排名</button>
+    <div id="streamerLikeRank"></div>
+
+    <button onclick="getViewerHistroy()">获取用户历史记录</button>
+    <div id="viewerhistroy"></div>
+
+    <script
+      src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+      integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const socket = io("https://livegame-service-kosvlhf7ca-ew.a.run.app", {
+        transports: ["websocket"],
+        auth: {
+          token:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFjNmQ2MmQ4YzdiYmRiNzkwZTU3MDUiLCJpYXQiOjE3MjI1NzYyMjZ9.cvnoJCKupdxrMMvFz0_WPw-sFb8hy3y08KDTBFZS5ws",
+        },
+      });
+      const streamerId = "66ac7bab1ba6c48dd9530ca1";
+
+      const getRanks = () => {
+        socket.emit("ranks", { streamerId }, (data) => {
+          document.getElementById("rankdata").innerHTML = JSON.stringify(data);
+        });
+      };
+
+      const getViewerHistroy = () => {
+        socket.emit("viewerHistory", {}, (data) => {
+          document.getElementById("viewerhistroy").innerHTML =
+            JSON.stringify(data);
+        });
+      };
+
+      const getStreamer = () => {
+        socket.emit("streamer", {}, (data) => {
+          document.getElementById("streamerdata").innerHTML =
+            JSON.stringify(data);
+        });
+      };
+
+      const getStreamerLikeRank = () => {
+        socket.emit("streamerRanks", {}, (data) => {
+          document.getElementById("streamerLikeRank").innerHTML =
+            JSON.stringify(data);
+        });
+      };
+
+      const followStreamer = () => {
+        socket.emit("follow", { streamerId }, (data) => {
+          document.getElementById("followStreamerdata").innerHTML =
+            JSON.stringify(data);
+        });
+      };
+
+      const getUserInfo = () => {
+        socket.emit("user", { streamerId }, (data) => {
+          document.getElementById("userInfo").innerHTML = JSON.stringify(data);
+        });
+      };
+
+      const getStreamerLike = () => {
+        socket.emit("likeCount", { streamerId }, (data) => {
+          document.getElementById("streamerLikedata").innerHTML =
+            JSON.stringify(data);
+        });
+      };
+
+      const gameClick = () => {
+        socket.emit("inClick", { streamerId }, (data) => {
+          document.getElementById("gameData").innerHTML = JSON.stringify(data);
+        });
+      };
+
+      socket.on("connect", function () {
+        console.log("---==== socket connected ====---");
+      });
+
+      socket.on("disconnect", function () {
+        console.log("Disconnected");
+      });
+    </script>
+  </head>
+
+  <body></body>
+</html>

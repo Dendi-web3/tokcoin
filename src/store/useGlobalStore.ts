@@ -19,6 +19,7 @@ export interface GlobalStoreProps {
   playedOnce: boolean;
   spining: boolean;
   viewHistories: ViewHistory[] | undefined;
+  currentIndex: number;
 }
 
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
@@ -36,6 +37,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   userRankData: undefined,
   spining: false,
   viewHistories: undefined,
+  currentIndex: 0,
 }));
 
 export default useGlobalStore;

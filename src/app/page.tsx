@@ -22,21 +22,26 @@ const Home = () => {
       centeredSlides={true}
       className="h-full w-full"
       onActiveIndexChange={(swiper: SwiperClass) => {
-        console.log(
-          "user select weapons index(include buy):",
-          swiper.activeIndex
-        );
+        console.log("user select room index:", swiper.activeIndex);
+        useGlobalStore.setState({ currentIndex: parseInt(swiper.activeIndex) });
+        const music =
+          userStreamerData?.[parseInt(swiper.activeIndex)].backgroundMusic;
+        const audio: HTMLMediaElement = document.getElementById(
+          "myAudio"
+        ) as HTMLMediaElement;
+        audio.src = music!;
       }}
     >
-      {userStreamerData?.map((x) => {
+      {userStreamerData?.map((x, i) => {
         return (
           <SwiperSlide
+            key={i}
             style={{
               height: window.innerHeight,
             }}
           >
-            <ChatRoom>
-              <Taptaptap />
+            <ChatRoom data={x}>
+              <Taptaptap data={x} />
             </ChatRoom>
           </SwiperSlide>
         );

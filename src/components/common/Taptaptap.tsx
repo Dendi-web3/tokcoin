@@ -8,16 +8,16 @@ interface Bonus {
   x: number;
   y: number;
 }
-// interface TaptaptapProps {
-//   height?: number;
-// }
-export default function Taptaptap() {
+interface TaptaptapProps {
+  data: StreamerData;
+}
+export default function Taptaptap({ data }: TaptaptapProps) {
   const bubbleW = 60;
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const socket = useSocket();
   const onTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
     addBonus(event.clientX - bubbleW / 2, event.clientY - bubbleW / 2);
-    socket?.emit("inClick");
+    socket?.emit("inClick", { streamerId: data._id });
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {

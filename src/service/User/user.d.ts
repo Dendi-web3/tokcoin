@@ -91,7 +91,7 @@ declare global {
     _id: string;
     backgroundMusic: string;
     coverPicture: string;
-    discription: string;
+    description: string;
     name: string;
   }
 

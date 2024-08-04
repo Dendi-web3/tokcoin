@@ -45,6 +45,10 @@ function App(props: PropsWithChildren) {
   }, [initData]);
 
   const token = useGlobalStore((state) => state.token);
+  const userStreamerData = useGlobalStore((x) => x.userStreamerData);
+  const currentIndex = useGlobalStore((x) => x.currentIndex);
+  const music = userStreamerData?.[currentIndex].backgroundMusic;
+
   const login = async () => {
     if (token.length > 0) return;
     const loginResult = await apiLogin({
@@ -59,12 +63,6 @@ function App(props: PropsWithChildren) {
     console.log(loginResult);
   };
 
-  const getRankData = () => {
-    socket?.emit("ranks", (data: UserRankData[]) => {
-      useGlobalStore.setState({ userRankData: data });
-    });
-  };
-
   const getStreamerData = () => {
     socket?.emit("streamer", (data: StreamerData[]) => {
       useGlobalStore.setState({ userStreamerData: data });
@@ -74,12 +72,6 @@ function App(props: PropsWithChildren) {
   const getUserInfo = () => {
     socket?.emit("user", (data: UserInfo) => {
       useGlobalStore.setState({ userInfo: data });
-    });
-  };
-
-  const getViewHistory = () => {
-    socket?.emit("viewerHistory", (data: ViewHistory[]) => {
-      useGlobalStore.setState({ viewHistories: data });
     });
   };
 
@@ -95,20 +87,10 @@ function App(props: PropsWithChildren) {
 
   useEffect(() => {
     if (token.length > 0) {
-      getRankData();
       getStreamerData();
       getUserInfo();
     }
   }, [token, socket]);
-
-  useEffect(() => {
-    // 设置一个定时器，每秒调用一次
-    const intervalId = setInterval(() => {
-      getRankData();
-      getViewHistory();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [socket]);
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
@@ -123,6 +105,28 @@ function App(props: PropsWithChildren) {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  useEffect(() => {
+    const audio: HTMLMediaElement = document.getElementById(
+      "myAudio"
+    ) as HTMLMediaElement;
+
+    const handleAudioPlay = () => {
+      console.log("audio play");
+      useGlobalStore.setState({ spining: true });
+    };
+    const handleAudioPause = () => {
+      console.log("audio pause");
+      useGlobalStore.setState({ spining: false });
+    };
+    // 监听播放事件
+    audio?.addEventListener("play", handleAudioPlay);
+    audio?.addEventListener("pause", handleAudioPause);
+    return () => {
+      audio?.removeEventListener("play", handleAudioPlay);
+      audio?.removeEventListener("pause", handleAudioPlay);
+    };
+  }, []);
+
   return (
     <AppRoot
       appearance={miniApp.isDark ? "dark" : "light"}
@@ -136,7 +140,7 @@ function App(props: PropsWithChildren) {
         id="myAudio"
         style={{ display: "none" }}
       >
-        <source src="/bg.mp3" type="audio/mpeg" />
+        <source src={music} type="audio/mpeg" />
       </audio>
     </AppRoot>
   );

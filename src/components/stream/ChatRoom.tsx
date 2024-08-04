@@ -12,11 +12,12 @@ import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
 
 interface ChatRoomProps {
+  data: StreamerData;
   children: React.ReactNode;
 }
 
 /* eslint-disable react/no-unescaped-entities */
-const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
+const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
   const userinfo = useGlobalStore((x) => x.userInfo);
   const follow: boolean = userinfo?.follow ?? false;
   const socket = useSocket();
@@ -29,39 +30,28 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const popup = usePopup();
   const viewersRef = useRef<BottomSheetRefs>(null);
   const viewHistoriesRef = useRef<BottomSheetRefs>(null);
-  const streamerId = "66ac7e81faa2078166226464";
+  const streamerId = data._id;
   const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData]);
+
+  const getViewHistory = () => {
+    socket?.emit("viewerHistory", { streamerId }, (data: ViewHistory[]) => {
+      useGlobalStore.setState({ viewHistories: data });
+    });
+  };
+  const getViewRanks = () => {
+    socket?.emit("ranks", { streamerId }, (data: UserRankData[]) => {
+      useGlobalStore.setState({ userRankData: data });
+    });
+  };
 
   useEffect(() => {
     // 设置一个定时器，每秒调用一次
     const intervalId = setInterval(() => {
-      socket?.emit("ranks", { streamerId }, (data: UserRankData[]) => {
-        useGlobalStore.setState({ userRankData: data });
-      });
+      getViewHistory();
+      getViewRanks();
     }, 1000);
     return () => clearInterval(intervalId);
   }, [socket, streamerId]);
-
-  useEffect(() => {
-    const audio: HTMLMediaElement = document.getElementById(
-      "myAudio"
-    ) as HTMLMediaElement;
-    const handleAudioPlay = () => {
-      console.log("audio play");
-      useGlobalStore.setState({ spining: true });
-    };
-    const handleAudioPause = () => {
-      console.log("audio pause");
-      useGlobalStore.setState({ spining: false });
-    };
-    // 监听播放事件
-    audio?.addEventListener("play", handleAudioPlay);
-    audio?.addEventListener("pause", handleAudioPause);
-    return () => {
-      audio?.removeEventListener("play", handleAudioPlay);
-      audio?.removeEventListener("pause", handleAudioPlay);
-    };
-  }, []);
 
   useEffect(() => {
     const swipe = () => {
@@ -75,7 +65,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
     <div
       className="w-full bg-cover bg-center z-10"
       style={{
-        backgroundImage: "url('/background2.png')",
+        backgroundImage: `url('${data.coverPicture}')`,
         // height: window.innerHeight,
         height: "var(--tg-viewport-stable-height)",
       }}
@@ -89,7 +79,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
       }}
     >
       {children}
-
       <div
         className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
@@ -122,7 +111,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                 textOverflow: "ellipsis",
               }}
             >
-              dark_queen
+              {data.name}
             </span>
 
             <button
@@ -425,15 +414,12 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
                     letterSpacing: "-0.14px",
                   }}
                 >
-                  dark_queen
+                  {data.name}
                 </span>
               </div>
             </div>
             <div style={{ fontSize: 12, marginTop: "4px" }}>
-              Hello everyone! I'm DarkQueen, a girl who loves chatting. Standing
-              at 166 cm, I enjoy sharing the little moments of my life with you
-              and listening to your stories. Whether you've had a happy event or
-              a small worry, feel free to come and talk to me!
+              {data.description}
             </div>
           </div>
         </div>
