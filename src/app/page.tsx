@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import ChatRoom from "./ChatRoom";
+import ChatRoom from "../components/stream/ChatRoom";
 // import { useSocket } from "@/context/SocketContext";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import Taptaptap from "@/components/stream/Taptaptap";
+import Taptaptap from "@/components/common/Taptaptap";
 
 const Home = () => {
   // const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);

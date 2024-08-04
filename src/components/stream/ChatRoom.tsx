@@ -2,7 +2,7 @@
 import { useSocket } from "@/context/SocketContext";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useEffect, useState, useRef, useMemo } from "react";
-import { formatNumberKMB } from "../tools/tools";
+import { formatNumberKMB } from "../../tools/tools";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
