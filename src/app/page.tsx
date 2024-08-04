@@ -1,15 +1,17 @@
 "use client";
 import React from "react";
 import ChatRoom from "../components/stream/ChatRoom";
-// import { useSocket } from "@/context/SocketContext";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import Taptaptap from "@/components/common/Taptaptap";
+import useGlobalStore from "@/store/useGlobalStore";
 
 const Home = () => {
   // const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
-
+  const userStreamerData: StreamerData[] | undefined = useGlobalStore(
+    (x) => x.userStreamerData
+  );
   return (
     <Swiper
       // onSwiper={setSwiperRef}
@@ -26,20 +28,19 @@ const Home = () => {
         );
       }}
     >
-      <SwiperSlide
-        style={{
-          height: window.innerHeight,
-        }}
-      >
-        <ChatRoom>
-          <Taptaptap />
-        </ChatRoom>
-      </SwiperSlide>
-      <SwiperSlide>
-        <ChatRoom>
-          <Taptaptap />
-        </ChatRoom>
-      </SwiperSlide>
+      {userStreamerData?.map((x) => {
+        return (
+          <SwiperSlide
+            style={{
+              height: window.innerHeight,
+            }}
+          >
+            <ChatRoom>
+              <Taptaptap />
+            </ChatRoom>
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 };

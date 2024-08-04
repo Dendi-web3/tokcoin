@@ -46,11 +46,11 @@ declare global {
   }
 
   interface ViewHistory {
-    streamerBackgroundMusic: string
-    streamerCoverPicture: string
-    streamerDescription: string
-    streamerId: string
-    streamerName: string
+    streamerBackgroundMusic: string;
+    streamerCoverPicture: string;
+    streamerDescription: string;
+    streamerId: string;
+    streamerName: string;
   }
 
   interface AccessToken {
@@ -85,6 +85,14 @@ declare global {
     rank: number;
     username: string;
     isMe: boolean;
+  }
+
+  interface StreamerData {
+    _id: string;
+    backgroundMusic: string;
+    coverPicture: string;
+    discription: string;
+    name: string;
   }
 
   interface UserInGameData {

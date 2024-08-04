@@ -59,14 +59,31 @@ function App(props: PropsWithChildren) {
     console.log(loginResult);
   };
 
-  let prevUser: User | undefined = undefined;
-
   const getRankData = () => {
     socket?.emit("ranks", (data: UserRankData[]) => {
       useGlobalStore.setState({ userRankData: data });
     });
   };
 
+  const getStreamerData = () => {
+    socket?.emit("streamer", (data: StreamerData[]) => {
+      useGlobalStore.setState({ userStreamerData: data });
+    });
+  };
+
+  const getUserInfo = () => {
+    socket?.emit("user", (data: UserInfo) => {
+      useGlobalStore.setState({ userInfo: data });
+    });
+  };
+
+  const getViewHistory = () => {
+    socket?.emit("viewerHistory", (data: ViewHistory[]) => {
+      useGlobalStore.setState({ viewHistories: data });
+    });
+  };
+
+  let prevUser: User | undefined = undefined;
   useEffect(() => {
     if (user !== prevUser) {
       if (!user) return;
@@ -79,9 +96,8 @@ function App(props: PropsWithChildren) {
   useEffect(() => {
     if (token.length > 0) {
       getRankData();
-      socket?.emit("user", (data: UserInfo) => {
-        useGlobalStore.setState({ userInfo: data });
-      });
+      getStreamerData();
+      getUserInfo();
     }
   }, [token, socket]);
 
@@ -89,9 +105,7 @@ function App(props: PropsWithChildren) {
     // 设置一个定时器，每秒调用一次
     const intervalId = setInterval(() => {
       getRankData();
-      socket?.emit("viewerHistory", (data: ViewHistory[]) => {
-        useGlobalStore.setState({ viewHistories: data });
-      });
+      getViewHistory();
     }, 1000);
     return () => clearInterval(intervalId);
   }, [socket]);

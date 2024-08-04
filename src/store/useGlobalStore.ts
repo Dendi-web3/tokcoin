@@ -12,6 +12,7 @@ export interface GlobalStoreProps {
   userWeapons: UserWeaponInfo.WeaponItem[] | undefined;
   userCurrentWeaponIndex: number;
   userRankData: UserRankData[] | undefined;
+  userStreamerData: StreamerData[] | undefined;
   signinData: SigninData | undefined;
   referralData: ReferralData | undefined;
   taskList: SocialTask[] | undefined;
@@ -19,6 +20,7 @@ export interface GlobalStoreProps {
   spining: boolean;
   viewHistories: ViewHistory[] | undefined;
 }
+
 const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   token: "",
   tgUser: undefined,
@@ -26,6 +28,7 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   userWeapons: undefined,
   userCurrentWeaponIndex: 0,
   userSocketData: undefined,
+  userStreamerData: undefined,
   signinData: undefined,
   referralData: undefined,
   taskList: undefined,
