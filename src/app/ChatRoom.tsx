@@ -6,7 +6,7 @@ import { formatNumberKMB } from "../tools/tools";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import { usePopup } from "@tma.js/sdk-react";
+import { usePopup } from "@telegram-apps/sdk-react";
 import BottomSheet, { BottomSheetRefs } from "@/components/common/BottomSheet";
 import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
@@ -30,7 +30,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
   const viewersRef = useRef<BottomSheetRefs>(null);
   const viewHistoriesRef = useRef<BottomSheetRefs>(null);
   const streamerId = "66ac7e81faa2078166226464";
-  const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData])
+  const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData]);
 
   useEffect(() => {
     // 设置一个定时器，每秒调用一次
@@ -222,21 +222,32 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
           </div>
         </div>
         <BottomSheet className="overflow-hidden" ref={viewersRef}>
-          <div className="text-[#939393] text-sm leading-none px-8 py-4">Top Viewers</div>
+          <div className="text-[#939393] text-sm leading-none px-8 py-4">
+            Top Viewers
+          </div>
           <div className="flex-1 bg-white rounded-t-[32px] p-4 overflow-y-auto overflow-x-hidden">
             {(userRankData ?? []).map((item) => (
-              <div 
+              <div
                 key={item.username}
                 className="h-[56px] flex items-center p-3 rounded-xl gap-3 text-xs font-medium"
-                style={{ 
-                  background: item.isMe ? 'linear-gradient(114deg, #FFACAC 2.47%, rgba(255, 196, 196, 0.50) 92.92%)' : 'transparent',
-                  color: item.isMe ? '#000' : 'inherit',
+                style={{
+                  background: item.isMe
+                    ? "linear-gradient(114deg, #FFACAC 2.47%, rgba(255, 196, 196, 0.50) 92.92%)"
+                    : "transparent",
+                  color: item.isMe ? "#000" : "inherit",
                 }}
               >
                 <div className="h-4 w-4 text-center">{item.rank}</div>
-                <img src="/default_avatar.png" alt={item.username} className="w-8 h-8 rounded-full" />
-                <div>{item.isMe ? 'You' : item.username}</div>
-                <div className="flex items-center flex-1 justify-end font-light" style={{ color: item.isMe ? '#000' : '#FFACAC' }}>
+                <img
+                  src="/default_avatar.png"
+                  alt={item.username}
+                  className="w-8 h-8 rounded-full"
+                />
+                <div>{item.isMe ? "You" : item.username}</div>
+                <div
+                  className="flex items-center flex-1 justify-end font-light"
+                  style={{ color: item.isMe ? "#000" : "#FFACAC" }}
+                >
                   {Intl.NumberFormat().format(item.point * 1000 ?? 0)}
                   <LikeIcon className="w-6 h-6" />
                 </div>
@@ -245,9 +256,17 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
           </div>
           {!!me && (
             <div className="bg-white p-6 border-t-[#E1E0E0] border-t-solid border-[1px] flex items-center gap-4">
-              <div className="h-4 w-4 text-center text-[10px]">{me.rank > 99 ? '99+' : me.rank}</div>
-              <img src="/default_avatar.png" alt={me.username} className="w-10 h-10 rounded-full" />
-              <div className="text-[#352D35] font-semibold text-[14px]">{me.username}</div>
+              <div className="h-4 w-4 text-center text-[10px]">
+                {me.rank > 99 ? "99+" : me.rank}
+              </div>
+              <img
+                src="/default_avatar.png"
+                alt={me.username}
+                className="w-10 h-10 rounded-full"
+              />
+              <div className="text-[#352D35] font-semibold text-[14px]">
+                {me.username}
+              </div>
               <div className="flex items-center flex-1 gap-2 justify-end text-[12px] font-medium text-[#17142E]">
                 {Intl.NumberFormat().format(me.point * 1000 ?? 0)}
                 <LikeIcon className="w-6 h-6" />
@@ -463,7 +482,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
           }}
         />
       </div>
-      <BottomSheet 
+      <BottomSheet
         ref={viewHistoriesRef}
         className="mt-[26px]"
         header={
@@ -473,25 +492,39 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children }) => {
               alt="User avatar"
               className="w-16 h-16 rounded-full"
             />
-            <span className="text-[10px] font-medium leading-[12px] text-[#000] tracking-[-0.1px]">@{tgUser?.firstName}</span>
+            <span className="text-[10px] font-medium leading-[12px] text-[#000] tracking-[-0.1px]">
+              @{tgUser?.firstName}
+            </span>
           </div>
         }
       >
         <div className="flex flex-col flex-1 mt-[59px] overflow-auto">
-          <div className="text-[14px] flex flex-col leading-[12px] tracking-[-0.14px] px-8 mb-[9px]">Watch History</div>
+          <div className="text-[14px] flex flex-col leading-[12px] tracking-[-0.14px] px-8 mb-[9px]">
+            Watch History
+          </div>
           <div className="bg-white rounded-[32px] overflow-y-scroll flex-1 flex flex-col p-4">
-            {viewHistories ? viewHistories.map((item) => (
-              <div key={item.streamerId} className="flex items-center p-3 gap-3">
-                <img src={item.streamerCoverPicture} alt={item.streamerName} className="w-8 h-8 rounded-full" />
-                <div className="flex-1 text-[12px] text-[#4F4F4F] font-medium">{item.streamerName}</div>
-                <a
-                  href={`https://t.me/share/url?url=https://t.me/test`}
+            {viewHistories ? (
+              viewHistories.map((item) => (
+                <div
+                  key={item.streamerId}
+                  className="flex items-center p-3 gap-3"
                 >
-                  <ShareIcon />
-                </a>
-              </div>
-            )) : <div className="items-center justify-center">Loading...</div>}
- 
+                  <img
+                    src={item.streamerCoverPicture}
+                    alt={item.streamerName}
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <div className="flex-1 text-[12px] text-[#4F4F4F] font-medium">
+                    {item.streamerName}
+                  </div>
+                  <a href={`https://t.me/share/url?url=https://t.me/test`}>
+                    <ShareIcon />
+                  </a>
+                </div>
+              ))
+            ) : (
+              <div className="items-center justify-center">Loading...</div>
+            )}
           </div>
         </div>
       </BottomSheet>

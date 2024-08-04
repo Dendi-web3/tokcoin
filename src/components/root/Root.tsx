@@ -2,6 +2,7 @@
 "use client";
 
 import { type PropsWithChildren, useEffect, useMemo } from "react";
+import { initSwipeBehavior } from "@telegram-apps/sdk";
 import {
   SDKProvider,
   useLaunchParams,
@@ -13,8 +14,9 @@ import {
   bindViewportCSSVars,
   useInitData,
   type User,
-} from "@tma.js/sdk-react";
-import { TonConnectUIProvider } from "@tonconnect/ui-react";
+} from "@telegram-apps/sdk-react";
+
+// import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { AppRoot } from "@telegram-apps/telegram-ui";
 
 import { ErrorBoundary } from "@/components/root/ErrorBoundary";
@@ -33,6 +35,9 @@ function App(props: PropsWithChildren) {
   const viewport = useViewport();
   const initData = useInitData();
   const socket = useSocket();
+  const [swipeBehavior] = initSwipeBehavior();
+  swipeBehavior.disableVerticalSwipe();
+
   const user = useMemo<User | undefined>(() => {
     return initData && initData.user ? initData.user : undefined;
   }, [initData]);
@@ -129,9 +134,9 @@ function RootInner({ children }: PropsWithChildren) {
 
   const debug = useLaunchParams().startParam === "debug";
 
-  const manifestUrl = useMemo(() => {
-    return new URL("tonconnect-manifest.json", window.location.href).toString();
-  }, []);
+  // const manifestUrl = useMemo(() => {
+  //   return new URL("tonconnect-manifest.json", window.location.href).toString();
+  // }, []);
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
@@ -141,11 +146,11 @@ function RootInner({ children }: PropsWithChildren) {
   }, [debug]);
 
   return (
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <SDKProvider acceptCustomStyles debug={debug}>
-        <App>{children}</App>
-      </SDKProvider>
-    </TonConnectUIProvider>
+    // <TonConnectUIProvider manifestUrl={manifestUrl}>
+    <SDKProvider acceptCustomStyles debug={debug}>
+      <App>{children}</App>
+    </SDKProvider>
+    // </TonConnectUIProvider>
   );
 }
 

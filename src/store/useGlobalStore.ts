@@ -4,8 +4,7 @@
  */
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { User } from "@tma.js/sdk-react";
-
+import type { User } from "@telegram-apps/sdk-react";
 export interface GlobalStoreProps {
   token: string;
   tgUser: User | undefined;
