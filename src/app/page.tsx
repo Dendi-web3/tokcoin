@@ -12,6 +12,7 @@ const Home = () => {
   const userStreamerData: StreamerData[] | undefined = useGlobalStore(
     (x) => x.userStreamerData
   );
+  const spining = useGlobalStore((x) => x.spining);
   return (
     <Swiper
       // onSwiper={setSwiperRef}
@@ -30,6 +31,7 @@ const Home = () => {
           "myAudio"
         ) as HTMLMediaElement;
         audio.src = music!;
+        if (!spining) audio?.pause();
       }}
     >
       {userStreamerData?.map((x, i) => {
