@@ -2,7 +2,7 @@
 "use client";
 
 import { type PropsWithChildren, useEffect, useMemo } from "react";
-import { initSwipeBehavior } from "@telegram-apps/sdk";
+import { initSwipeBehavior, initClosingBehavior } from "@telegram-apps/sdk";
 import {
   SDKProvider,
   useLaunchParams,
@@ -36,7 +36,9 @@ function App(props: PropsWithChildren) {
   const initData = useInitData();
   const socket = useSocket();
   const [swipeBehavior] = initSwipeBehavior();
+  const [closingBehavior] = initClosingBehavior();
   swipeBehavior.disableVerticalSwipe();
+  closingBehavior.enableConfirmation();
 
   const user = useMemo<User | undefined>(() => {
     return initData && initData.user ? initData.user : undefined;
@@ -103,6 +105,7 @@ function App(props: PropsWithChildren) {
   }, [themeParams]);
 
   useEffect(() => {
+    viewport?.expand();
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
