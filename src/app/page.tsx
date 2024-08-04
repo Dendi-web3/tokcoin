@@ -24,9 +24,8 @@ const Home = () => {
       className="h-full w-full"
       onActiveIndexChange={(swiper: SwiperClass) => {
         console.log("user select room index:", swiper.activeIndex);
-        useGlobalStore.setState({ currentIndex: parseInt(swiper.activeIndex) });
-        const music =
-          userStreamerData?.[parseInt(swiper.activeIndex)].backgroundMusic;
+        useGlobalStore.setState({ currentIndex: swiper.activeIndex });
+        const music = userStreamerData?.[swiper.activeIndex].backgroundMusic;
         const audio: HTMLMediaElement = document.getElementById(
           "myAudio"
         ) as HTMLMediaElement;
