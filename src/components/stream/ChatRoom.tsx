@@ -93,7 +93,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
             style={{ background: "rgba(8, 8, 8, 0.20)" }}
           >
             <img
-              src="/avatar.png"
+              src={data.avatar}
               alt="Ava profile picture"
               className="w-6 h-6 rounded-full"
             />
@@ -388,7 +388,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
           <div className=" items-start  mb-2">
             <div className="flex items-center  space-x-2">
               <img
-                src="/avatar.png"
+                src={data.avatar}
                 alt="Ava profile picture"
                 className="w-6 h-6 rounded-full"
               />

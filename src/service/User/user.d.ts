@@ -93,6 +93,7 @@ declare global {
     coverPicture: string;
     description: string;
     name: string;
+    avatar: string;
   }
 
   interface UserInGameData {
