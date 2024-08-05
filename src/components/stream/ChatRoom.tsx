@@ -52,7 +52,6 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
       "user",
       { streamerId: data._id },
       (data: { follow: boolean }) => {
-        debugger;
         setFollow(data.follow);
       }
     );
