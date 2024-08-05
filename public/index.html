@@ -35,10 +35,11 @@
         transports: ["websocket"],
         auth: {
           token:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFjNmQ2MmQ4YzdiYmRiNzkwZTU3MDUiLCJpYXQiOjE3MjI1NzYyMjZ9.cvnoJCKupdxrMMvFz0_WPw-sFb8hy3y08KDTBFZS5ws",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Njk5MzA2MjdiMzJiM2ExMzU0MTRmNTMiLCJpYXQiOjE3MjI4NDIzODB9.LL3LT0_VnBEzb4Wv0wAmMamZLgCy78pf7c7pw622TIs",
         },
       });
-      const streamerId = "66ac7bab1ba6c48dd9530ca1";
+
+      const streamerId = "66ac7e81faa2078166226464";
 
       const getRanks = () => {
         socket.emit("ranks", { streamerId }, (data) => {

@@ -18,8 +18,7 @@ interface ChatRoomProps {
 
 /* eslint-disable react/no-unescaped-entities */
 const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
-  const userinfo = useGlobalStore((x) => x.userInfo);
-  const follow: boolean = userinfo?.follow ?? false;
+  const [follow, setFollow] = useState(false);
   const socket = useSocket();
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
@@ -44,11 +43,27 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
     });
   };
 
+  const followStreamer = () => {
+    socket?.emit("follow", { streamerId: data._id });
+  };
+
+  const getUserInfoAndFollowStatus = () => {
+    socket?.emit(
+      "user",
+      { streamerId: data._id },
+      (data: { follow: boolean }) => {
+        debugger;
+        setFollow(data.follow);
+      }
+    );
+  };
+
   useEffect(() => {
     // 设置一个定时器，每秒调用一次
     const intervalId = setInterval(() => {
       getViewHistory();
       getViewRanks();
+      getUserInfoAndFollowStatus();
     }, 1000);
     return () => clearInterval(intervalId);
   }, [socket, streamerId]);
@@ -138,15 +153,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
                     })
                     .then((x) => {
                       if (x === "Confirm") {
-                        socket?.emit("follow", (data: UserInfo) => {
-                          useGlobalStore.setState({ userInfo: data });
-                        });
+                        followStreamer();
                       }
                     });
                 } else {
-                  socket?.emit("follow", (data: UserInfo) => {
-                    useGlobalStore.setState({ userInfo: data });
-                  });
+                  followStreamer();
                 }
               }}
             >
