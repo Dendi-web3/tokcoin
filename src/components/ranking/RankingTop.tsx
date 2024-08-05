@@ -1,16 +1,11 @@
-// import { useState } from "react";
-import useGlobalStore from "@/store/useGlobalStore";
 interface RankingTopProps {
   height: number;
+  data: UserRankData[] | undefined;
 }
-export default function RankingTop({ height }: RankingTopProps) {
-  const data: UserRankData[] | undefined = useGlobalStore(
-    (x) => x.userRankData
-  );
-
+export default function RankingTop({ height, data }: RankingTopProps) {
   return (
     <div
-      className="absolute top-[0px] flex flex-row items-center justify-between mx-[20px] mt-[49px] z-30 space-x-[10px]"
+      className="absolute top-[20px] flex flex-row items-center justify-between mx-[20px] pt-[49px] z-30 space-x-[10px]"
       style={{
         height: height,
         width: window.innerWidth - 40,

@@ -11,7 +11,6 @@ export interface GlobalStoreProps {
   userInfo: UserInfo | undefined;
   userWeapons: UserWeaponInfo.WeaponItem[] | undefined;
   userCurrentWeaponIndex: number;
-  userRankData: UserRankData[] | undefined;
   userStreamerData: StreamerData[] | undefined;
   signinData: SigninData | undefined;
   referralData: ReferralData | undefined;
@@ -34,7 +33,6 @@ const useGlobalStore = create<GlobalStoreProps>()((set, get) => ({
   referralData: undefined,
   taskList: undefined,
   playedOnce: false,
-  userRankData: undefined,
   spining: false,
   viewHistories: undefined,
   currentIndex: 0,

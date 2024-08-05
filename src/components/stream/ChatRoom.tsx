@@ -10,6 +10,7 @@ import { usePopup } from "@telegram-apps/sdk-react";
 import BottomSheet, { BottomSheetRefs } from "@/components/common/BottomSheet";
 import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
+import Ranking from "@/components/ranking/Ranking";
 
 interface ChatRoomProps {
   data: StreamerData;
@@ -19,18 +20,20 @@ interface ChatRoomProps {
 /* eslint-disable react/no-unescaped-entities */
 const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
   const [follow, setFollow] = useState(false);
+  const [rank, setRank] = useState<UserRankData[] | undefined>(undefined);
+
   const socket = useSocket();
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
-  const userRankData = useGlobalStore((x) => x.userRankData);
   const tgUser = useGlobalStore((x) => x.tgUser);
   const viewHistories = useGlobalStore((x) => x.viewHistories);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const popup = usePopup();
   const viewersRef = useRef<BottomSheetRefs>(null);
   const viewHistoriesRef = useRef<BottomSheetRefs>(null);
+  const rankingRef = useRef<BottomSheetRefs>(null);
+  const me = useMemo(() => rank?.find((x) => x.isMe), [rank]);
   const streamerId = data._id;
-  const me = useMemo(() => userRankData?.find((x) => x.isMe), [userRankData]);
 
   const getViewHistory = () => {
     socket?.emit("viewerHistory", { streamerId }, (data: ViewHistory[]) => {
@@ -39,7 +42,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
   };
   const getViewRanks = () => {
     socket?.emit("ranks", { streamerId }, (data: UserRankData[]) => {
-      useGlobalStore.setState({ userRankData: data });
+      setRank(data);
     });
   };
 
@@ -224,7 +227,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
             Top Viewers
           </div>
           <div className="flex-1 bg-white rounded-t-[32px] p-4 overflow-y-auto overflow-x-hidden">
-            {(userRankData ?? []).map((item) => (
+            {(rank ?? []).map((item) => (
               <div
                 key={item.username}
                 className="h-[56px] flex items-center p-3 rounded-xl gap-3 text-xs font-medium"
@@ -272,7 +275,26 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
             </div>
           )}
         </BottomSheet>
-        <div className="w-full flex items-center justify-end">
+        <div className="w-full flex items-center justify-between">
+          <div
+            className=" h-[24px]  text-white px-2 py-1 rounded-full flex flex-row items-center mb-[20px]"
+            style={{
+              background: "rgba(8, 8, 8, 0.20)",
+              zIndex: 999,
+            }}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              rankingRef.current?.open();
+            }}
+          >
+            <img
+              src="/daily_ranking.svg"
+              alt="Ava profile picture"
+              className="w-[16px] h-[16px] rounded-full mr-[4px]"
+            />
+            <span className="text-[12px]"> Daily Ranking</span>
+          </div>
           <div
             className=" h-[42px]  w-[52px] relative"
             style={{
@@ -522,6 +544,9 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
             )}
           </div>
         </div>
+      </BottomSheet>
+      <BottomSheet ref={rankingRef}>
+        <Ranking data={rank} />
       </BottomSheet>
     </div>
   );

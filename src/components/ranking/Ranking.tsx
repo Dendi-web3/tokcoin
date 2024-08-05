@@ -1,48 +1,41 @@
 "use client";
 import RankingItem from "@/components/ranking/RankingItem";
 import RankingItemBottom from "@/components/ranking/RankingItemBottom";
-import useGlobalStore from "@/store/useGlobalStore";
 import RankingTop from "@/components/ranking/RankingTop";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-export default function Widget() {
-  const router = useRouter();
-  const data: UserRankData[] | undefined = useGlobalStore(
-    (x) => x.userRankData
-  );
-
+interface RankingProps {
+  data: UserRankData[] | undefined;
+}
+export default function Ranking({ data }: RankingProps) {
   const me = data?.find((x) => x.isMe);
   return (
     <div
       className="bg-[#F5F3F3]"
       style={{
         height: window.innerHeight,
+        overflow: "hidden",
       }}
     >
-      <div
-        className="flex items-center space-x-2 h-[64px] z-50  fixed top-0 p-4"
-        onClick={() => {
-          router.push("/");
-        }}
-      >
-        <button className="text-white" style={{ color: "white" }}>
-          <img alt="back-arrow" src="/Left_white.svg" />
-        </button>
+      <div className="flex items-center space-x-2 h-[64px] z-50  fixed top-0 p-4">
         <h1
           className="text-white text-[14px]"
           style={{
-            fontWeight: 400,
+            fontWeight: 700,
           }}
         >
-          Ranking
+          Daily Ranking
         </h1>
       </div>
-      <Image
+      <img
         src={"/rank_bg.png"}
         alt="rank_bg"
-        width={window.innerWidth}
-        height={(window.innerWidth / 390) * 302}
-        style={{ position: "relative", zIndex: 10, top: 0 }}
+        style={{
+          position: "relative",
+          zIndex: 10,
+          top: 0,
+          height: (window.innerWidth / 390) * 302 - 40,
+          width: window.innerWidth,
+        }}
       />
       <Image
         src={"/heart4.png"}
@@ -51,7 +44,10 @@ export default function Widget() {
         height={210}
         style={{ position: "absolute", zIndex: 10, top: 0, right: 0 }}
       />
-      <RankingTop height={(window.innerWidth / 390) * 302 - 49 - 28} />
+      <RankingTop
+        height={(window.innerWidth / 390) * 302 - 49 - 28}
+        data={data}
+      />
       <div
         className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px] overflow-y-auto scrollbar-w-0 scrollbar-width-none"
         style={{
