@@ -27,6 +27,16 @@ import useGlobalStore from "@/store/useGlobalStore";
 import { apiLogin } from "@/service/User";
 import "./styles.css";
 import { useSocket } from "@/context/SocketContext";
+import LoadingIcon from "@/assets/loading.svg";
+
+function LoadingPage() {
+  return (
+    <div className="flex flex-col justify-center items-center h-screen w-screen text-white gap-[24px] bg-cover bg-center" style={{ backgroundImage: 'url(/loading.png)' }}>
+      <div className="text-[40px] font-bold leading-none">Loading...</div>
+      <LoadingIcon className="w-10 h-10 animate-spin" />
+    </div>
+  )
+}
 
 function App(props: PropsWithChildren) {
   const lp = useLaunchParams();
@@ -131,7 +141,7 @@ function App(props: PropsWithChildren) {
       appearance={miniApp.isDark ? "dark" : "light"}
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
-      {props.children}
+      {userStreamerData ? props.children : <LoadingPage />}
       <audio
         controls={true}
         autoPlay={true}

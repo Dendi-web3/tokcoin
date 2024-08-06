@@ -10,14 +10,16 @@ interface Bonus {
 }
 interface TaptaptapProps {
   data: StreamerData;
+  onTap: () => void
 }
-export default function Taptaptap({ data }: TaptaptapProps) {
+export default function Taptaptap({ data, onTap }: TaptaptapProps) {
   const bubbleW = 60;
   const [bonus, setBonus] = useState<Bonus[]>([]);
   const socket = useSocket();
-  const onTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
+  const handleTap: React.MouseEventHandler<HTMLDivElement> = (event) => {
     addBonus(event.clientX - bubbleW / 2, event.clientY - bubbleW / 2);
     socket?.emit("inClick", { streamerId: data._id });
+    onTap()
     if (navigator?.vibrate) {
       navigator.vibrate(200);
     } else {
@@ -51,7 +53,7 @@ export default function Taptaptap({ data }: TaptaptapProps) {
         height: window.innerHeight,
         overflow: "hidden",
       }}
-      onClick={onTap}
+      onClick={handleTap}
     >
       <AnimatePresence>
         {bonus.map((b) => (
