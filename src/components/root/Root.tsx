@@ -86,10 +86,9 @@ function App(props: PropsWithChildren) {
   }, [user]);
 
   useEffect(() => {
-    if (token.length > 0) {
-      getStreamerData();
-      getUserInfo();
-    }
+    if (token.length < 0) return;
+    getStreamerData();
+    getUserInfo();
   }, [token, socket]);
 
   useEffect(() => {

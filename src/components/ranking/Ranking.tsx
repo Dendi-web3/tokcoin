@@ -2,12 +2,18 @@
 import RankingItem from "@/components/ranking/RankingItem";
 import RankingItemBottom from "@/components/ranking/RankingItemBottom";
 import RankingTop from "@/components/ranking/RankingTop";
+import useGlobalStore from "@/store/useGlobalStore";
 import Image from "next/image";
 interface RankingProps {
-  data: UserRankData[] | undefined;
+  streamerId: string | undefined;
 }
-export default function Ranking({ data }: RankingProps) {
-  const me = data?.find((x) => x.isMe);
+export default function Ranking({ streamerId }: RankingProps) {
+  const streamerRankData: StreamerRankData[] | undefined = useGlobalStore(
+    (x) => x.streamerRankData
+  );
+  const me: StreamerRankData | undefined = streamerRankData?.find(
+    (x) => x._id === streamerId
+  );
   return (
     <div
       className="bg-[#F5F3F3]"
@@ -46,23 +52,23 @@ export default function Ranking({ data }: RankingProps) {
       />
       <RankingTop
         height={(window.innerWidth / 390) * 302 - 49 - 28}
-        data={data}
+        data={streamerRankData}
       />
       <div
         className="mt-[21px] bg-white rounded-tl-[32px] rounded-tr-[32px] p-[16px] overflow-y-auto scrollbar-w-0 scrollbar-width-none"
         style={{
           scrollbarWidth: "none",
-          // scrollbarWidth: "none",
           height:
             window.innerHeight -
             (window.innerWidth / 390) * 302 -
             21 -
+            84 -
             (me ? 84 : 0),
         }}
       >
-        {data?.map((x: UserRankData, i) => {
+        {streamerRankData?.map((x: StreamerRankData, i) => {
           if (i < 3) return;
-          return <RankingItem key={i} {...x} />;
+          return <RankingItem key={i} data={x} isMe={me?._id === x._id} />;
         })}
       </div>
       {me ? (
@@ -74,7 +80,7 @@ export default function Ranking({ data }: RankingProps) {
           }}
         >
           <div className="px-[16px] w-full">
-            <RankingItemBottom {...me} />
+            <RankingItemBottom data={me} />
           </div>
         </div>
       ) : undefined}

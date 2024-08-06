@@ -1,12 +1,9 @@
 // import { useState } from "react";
 interface RankingItemProps {
-  rank: number;
-  username: string;
-  point: number;
+  data: StreamerRankData;
   isMe: boolean;
 }
-export default function RankingItem(props: RankingItemProps) {
-  const { rank, point, username, isMe } = props;
+export default function RankingItem({ data, isMe }: RankingItemProps) {
   return (
     <div
       className="flex items-center justify-between p-[12px] w-full"
@@ -24,11 +21,11 @@ export default function RankingItem(props: RankingItemProps) {
             color: isMe ? "black" : "#4F4F4F",
           }}
         >
-          {rank}
+          {data.rank}
         </span>
         <img
           className="w-[32px] h-[32px] rounded-full"
-          src="/Joe.png"
+          src={data.streamerAvatar}
           alt="user"
         />
         <span
@@ -37,7 +34,7 @@ export default function RankingItem(props: RankingItemProps) {
             color: isMe ? "black" : "#4F4F4F",
           }}
         >
-          {isMe ? "You" : username}
+          {isMe ? "You" : data.streamerName}
         </span>
       </div>
       <div className="flex items-center space-x-2">
@@ -45,7 +42,7 @@ export default function RankingItem(props: RankingItemProps) {
           className=" text-[12px]"
           style={{ fontWeight: 300, color: isMe ? "black" : "#FFACAC" }}
         >
-          {Intl.NumberFormat().format(point)}
+          {Intl.NumberFormat().format(data.totalLike)}
         </span>
         <img alt="hearts" src="/heart3.png" className="w-[24px] h-[21px]" />
       </div>

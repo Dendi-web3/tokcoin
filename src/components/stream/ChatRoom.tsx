@@ -33,6 +33,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
   const viewHistoriesRef = useRef<BottomSheetRefs>(null);
   const rankingRef = useRef<BottomSheetRefs>(null);
   const me = useMemo(() => rank?.find((x) => x.isMe), [rank]);
+  const currentIndex = useGlobalStore((x) => x.currentIndex);
   const streamerId = data._id;
 
   const getViewHistory = () => {
@@ -60,15 +61,18 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
     );
   };
 
+  const getStreamerLikeRank = () => {
+    socket?.emit("streamerRanks", {}, (data: StreamerRankData[]) => {
+      useGlobalStore.setState({ streamerRankData: data });
+    });
+  };
+
   useEffect(() => {
-    // 设置一个定时器，每秒调用一次
-    const intervalId = setInterval(() => {
-      getViewHistory();
-      getViewRanks();
-      getUserInfoAndFollowStatus();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [socket, streamerId]);
+    getViewHistory();
+    getViewRanks();
+    getUserInfoAndFollowStatus();
+    getStreamerLikeRank();
+  }, [socket, streamerId, currentIndex]);
 
   useEffect(() => {
     const swipe = () => {
@@ -546,7 +550,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
         </div>
       </BottomSheet>
       <BottomSheet ref={rankingRef}>
-        <Ranking data={rank} />
+        <Ranking streamerId={streamerId} />
       </BottomSheet>
     </div>
   );

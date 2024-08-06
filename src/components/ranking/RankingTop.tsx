@@ -1,6 +1,6 @@
 interface RankingTopProps {
   height: number;
-  data: UserRankData[] | undefined;
+  data: StreamerRankData[] | undefined;
 }
 export default function RankingTop({ height, data }: RankingTopProps) {
   return (
@@ -13,7 +13,7 @@ export default function RankingTop({ height, data }: RankingTopProps) {
     >
       <div className="w-full h-full flex-1 flex flex-col items-center relative">
         <img
-          src={"/rank_top.jpeg"}
+          src={data?.[1]?.streamerAvatar}
           alt="Joe"
           width={77}
           height={77}
@@ -39,7 +39,7 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             textOverflow: "ellipsis",
           }}
         >
-          {data?.[1]?.username}
+          {data?.[1]?.streamerName}
         </div>
         <div
           className="rounded-full bg-white absolute bottom-0 text-center text-[12px] text-[#FFACAC] pt-[1px]"
@@ -49,13 +49,13 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             lineHeight: "20px",
           }}
         >
-          {Intl.NumberFormat().format(data?.[1]?.point ?? 0)}
+          {Intl.NumberFormat().format(data?.[1]?.totalLike ?? 0)}
         </div>
       </div>
 
       <div className="w-full h-full flex-1 flex flex-col items-center relative">
         <img
-          src={"/rank_top.jpeg"}
+          src={data?.[0]?.streamerAvatar}
           alt="Joe"
           className="rounded-full  absolute bottom-[84px]"
           style={{
@@ -84,7 +84,7 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             fontWeight: 700,
           }}
         >
-          {data?.[0]?.username}
+          {data?.[0]?.streamerName}
         </div>
         <div
           className="rounded-full bg-white absolute bottom-[26px] text-center text-[12px] text-[#FFACAC] pt-[1px]"
@@ -94,12 +94,12 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             lineHeight: "20px",
           }}
         >
-          {Intl.NumberFormat().format(data?.[0]?.point ?? 0)}
+          {Intl.NumberFormat().format(data?.[0]?.totalLike ?? 0)}
         </div>
       </div>
       <div className="w-full h-full flex-1 flex flex-col items-center relative">
         <img
-          src={"/rank_top.jpeg"}
+          src={data?.[2]?.streamerAvatar}
           alt="Joe"
           width={77}
           height={77}
@@ -125,7 +125,7 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             textOverflow: "ellipsis",
           }}
         >
-          {data?.[2]?.username}
+          {data?.[2]?.streamerName}
         </div>
         <div
           className="rounded-full bg-white absolute bottom-0 text-center text-[12px] text-[#FFACAC] pt-[1px]"
@@ -135,7 +135,7 @@ export default function RankingTop({ height, data }: RankingTopProps) {
             lineHeight: "20px",
           }}
         >
-          {Intl.NumberFormat().format(data?.[2]?.point ?? 0)}
+          {Intl.NumberFormat().format(data?.[2]?.totalLike ?? 0)}
         </div>
       </div>
     </div>

@@ -96,6 +96,14 @@ declare global {
     avatar: string;
   }
 
+  interface StreamerRankData {
+    _id: string;
+    rank: number;
+    totalLike: number;
+    streamerName: string;
+    streamerAvatar: string;
+  }
+
   interface UserInGameData {
     duration: number;
     initDurability: number;
