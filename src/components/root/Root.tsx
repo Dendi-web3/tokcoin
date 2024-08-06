@@ -132,6 +132,7 @@ function App(props: PropsWithChildren) {
       appearance={miniApp.isDark ? "dark" : "light"}
       platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
     >
+      {userStreamerData ? props.children : <div>Loading Data</div>}
       {props.children}
       <audio
         controls={true}
