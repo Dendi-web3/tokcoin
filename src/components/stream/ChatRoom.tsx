@@ -495,10 +495,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
           />
         </div>
         <div className="relative">
-          <span className="absolute top-[-4px] font-bold text-[12px] leading-[10px] text-[#FFACAC]">
+          <span className="absolute top-[-7px] font-bold text-[12px] leading-[10px] text-[#FFACAC] italic">
             {formatNumberKMB(likeCount, likeCount > 1000 ? 1 : 0)}
           </span>
-          <LikeIcon className="w-8 h-8" />
+          <LikeIcon className="w-8 h-8 scale-125" />
         </div>
         <img
           src="/default_avatar.png"
