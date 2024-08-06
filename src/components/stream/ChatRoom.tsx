@@ -78,6 +78,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
     getViewRanks();
     getUserInfoAndFollowStatus();
     getStreamerLikeRank();
+    getStreamerLike();
   }, [socket, streamerId, currentIndex]);
 
   useEffect(() => {
