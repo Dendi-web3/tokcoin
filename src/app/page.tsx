@@ -4,7 +4,6 @@ import ChatRoom from "../components/stream/ChatRoom";
 import { Swiper, SwiperSlide, SwiperClass } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import Taptaptap from "@/components/common/Taptaptap";
 import useGlobalStore from "@/store/useGlobalStore";
 
 const Home = () => {
@@ -41,9 +40,7 @@ const Home = () => {
               height: window.innerHeight,
             }}
           >
-            <ChatRoom data={x}>
-              <Taptaptap data={x} />
-            </ChatRoom>
+            <ChatRoom data={x} />
           </SwiperSlide>
         );
       })}

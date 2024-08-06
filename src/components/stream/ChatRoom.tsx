@@ -8,18 +8,19 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { usePopup } from "@telegram-apps/sdk-react";
 import BottomSheet, { BottomSheetRefs } from "@/components/common/BottomSheet";
+import Taptaptap from "@/components/common/Taptaptap";
 import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
 import Ranking from "@/components/ranking/Ranking";
 
 interface ChatRoomProps {
   data: StreamerData;
-  children: React.ReactNode;
 }
 
 /* eslint-disable react/no-unescaped-entities */
-const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
+const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
   const [follow, setFollow] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
   const [rank, setRank] = useState<UserRankData[] | undefined>(undefined);
 
   const socket = useSocket();
@@ -59,6 +60,16 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
       }
     );
   };
+  const getStreamerLike = () => {
+    socket?.emit(
+      'likeCount',
+      { streamerId: data._id },
+      (data: number) => {
+        if (data > likeCount) setLikeCount(data);
+        
+      },
+    );
+  };
 
   useEffect(() => {
     // 设置一个定时器，每秒调用一次
@@ -66,6 +77,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
       getViewHistory();
       getViewRanks();
       getUserInfoAndFollowStatus();
+      getStreamerLike();
     }, 1000);
     return () => clearInterval(intervalId);
   }, [socket, streamerId]);
@@ -94,7 +106,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
         audio?.play();
       }}
     >
-      {children}
+      <Taptaptap data={data} onTap={() => setLikeCount(likeCount + 1)} />
       <div
         className="w-full h-[104px] flex flex-col items-center justify-between p-[24px]  text-white relative"
         style={{
@@ -483,11 +495,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ children, data }) => {
             className="w-[24px] h-[24px] rounded-full absolute right-[10px] top-[5px]"
           />
         </div>
-        <img
-          src="/gift.png"
-          alt="Ava profile picture"
-          className="w-[40px] h-[40px] rounded-full"
-        />
+        <div className="relative">
+          <span className="absolute top-[-4px] font-bold text-[12px] leading-[10px] text-[#FFACAC]">{formatNumberKMB(likeCount, likeCount > 1000 ? 1 : 0)}</span>
+          <LikeIcon className="w-8 h-8" />
+        </div>
         <img
           src="/default_avatar.png"
           alt="User avatar"
