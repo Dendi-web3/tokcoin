@@ -12,6 +12,7 @@ import Taptaptap from "@/components/common/Taptaptap";
 import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
 import Ranking from "@/components/ranking/Ranking";
+import confetti from "canvas-confetti";
 
 interface ChatRoomProps {
   data: StreamerData;
@@ -37,6 +38,44 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
   const currentIndex = useGlobalStore((x) => x.currentIndex);
   const streamerId = data._id;
 
+  const defaults = {
+    spread: 45, // Smaller spread
+    ticks: 100,
+    gravity: 2, // Increase gravity to limit the spread
+    decay: 0.9,
+    startVelocity: 20,
+  };
+
+  function shoot(x: number, y: number) {
+    confetti({
+      ...defaults,
+      particleCount: 10,
+      scalar: 0.2, // Smaller confetti
+      shapes: ["circle", "square"],
+      colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+      origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+    });
+
+    confetti({
+      ...defaults,
+      particleCount: 10,
+      scalar: 0.2, // Smaller confetti for text shapes
+      // shapes: ["text"],
+      // shapeOptions: {
+      //   text: {
+      //     value: ["🦄", "🌈"],
+      //   },
+      // },
+      origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+    });
+  }
+  const handleClick = (event: React.MouseEvent) => {
+    const { clientX, clientY } = event;
+    shoot(clientX, clientY);
+    setTimeout(() => shoot(clientX, clientY), 100);
+    setTimeout(() => shoot(clientX, clientY), 200);
+  };
+
   const getViewHistory = () => {
     socket?.emit("viewerHistory", { streamerId }, (data: ViewHistory[]) => {
       useGlobalStore.setState({ viewHistories: data });
@@ -48,8 +87,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
     });
   };
 
-  const followStreamer = () => {
-    socket?.emit("follow", { streamerId: data._id });
+  const followStreamer = async () => {
+    await socket?.emit("follow", { streamerId: data._id }, () => {
+      getUserInfoAndFollowStatus();
+    });
   };
 
   const getUserInfoAndFollowStatus = () => {
@@ -151,7 +192,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
                 alignItems: "center",
                 zIndex: 999,
               }}
-              onClick={(event) => {
+              onClick={async (event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 if (follow) {
@@ -169,7 +210,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
                       }
                     });
                 } else {
-                  followStreamer();
+                  await followStreamer();
+                  handleClick(event);
                 }
               }}
             >
