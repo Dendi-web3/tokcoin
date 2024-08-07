@@ -13,6 +13,11 @@ import LikeIcon from "@/assets/like.svg";
 import ShareIcon from "@/assets/share.svg";
 import Ranking from "@/components/ranking/Ranking";
 import confetti from "canvas-confetti";
+import { orbit } from 'ldrs'
+
+orbit.register()
+
+// // Default values shown
 
 interface ChatRoomProps {
   data: StreamerData;
@@ -23,7 +28,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
   const [follow, setFollow] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [rank, setRank] = useState<UserRankData[] | undefined>(undefined);
-
+  const [loading, setLoading] = useState(false)
   const socket = useSocket();
   const playedOnce = useGlobalStore((x) => x.playedOnce);
   const spining = useGlobalStore((x) => x.spining);
@@ -87,9 +92,13 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
     });
   };
 
-  const followStreamer = async () => {
-    await socket?.emit("follow", { streamerId: data._id }, () => {
-      getUserInfoAndFollowStatus();
+  const followStreamer =() => {
+    setLoading(true)
+    return new Promise((resolve) => {
+      socket?.emit("follow", { streamerId: data._id }, () => {
+        getUserInfoAndFollowStatus();
+        resolve(true)
+      });
     });
   };
 
@@ -99,6 +108,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
       { streamerId: data._id },
       (data: { follow: boolean }) => {
         setFollow(data.follow);
+        setLoading(false)
       }
     );
   };
@@ -215,23 +225,32 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
                 }
               }}
             >
-              {follow ? (
-                <img
-                  src="/done.svg"
-                  alt="user1"
-                  className="w-[12px] h-[12px]"
-                />
-              ) : (
-                <p
-                  style={{
-                    fontSize: "8px",
-                    fontWeight: 500,
-                    lineHeight: "20px",
-                  }}
-                >
-                  Follow
-                </p>
-              )}
+              {
+                loading ?
+                  <l-orbit
+                    size="20"
+                    speed="1.5" 
+                    color="white" 
+                  ></l-orbit>
+                :
+                (follow ? (
+                  <img
+                    src="/done.svg"
+                    alt="user1"
+                    className="w-[12px] h-[12px]"
+                  />
+                ) : (
+                  <p
+                    style={{
+                      fontSize: "8px",
+                      fontWeight: 500,
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Follow
+                  </p>
+                ))
+              }
             </button>
           </div>
           <div

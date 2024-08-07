@@ -88,6 +88,9 @@ devDependencies:
   eslint-plugin-react:
     specifier: ^7.34.3
     version: 7.34.4(eslint@8.57.0)
+  ldrs:
+    specifier: ^1.0.2
+    version: 1.0.2
   postcss:
     specifier: ^8
     version: 8.4.39
@@ -4315,6 +4318,10 @@ packages:
     engines: {node: '>=0.10'}
     dependencies:
       language-subtag-registry: 0.3.23
+    dev: true
+
+  /ldrs@1.0.2:
+    resolution: {integrity: sha512-sYJmivdkIiHrUEqTrEWccBoLdaENpzbzkABI5rk8rRxTXrg9i2xVuDvUUuhOhJY3RmQyaoxs046pM1DCRdcIpg==}
     dev: true
 
   /levn@0.4.1:
