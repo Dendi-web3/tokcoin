@@ -14,6 +14,7 @@ import ShareIcon from "@/assets/share.svg";
 import Ranking from "@/components/ranking/Ranking";
 import confetti from "canvas-confetti";
 import { orbit } from 'ldrs'
+import { Bubble3 } from "./Bubble3";
 
 orbit.register()
 
@@ -401,7 +402,75 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
       </div>
       <div className="flex flex-col w-full absolute bottom-[104px] gap-[8px]">
         <div className=" mr-auto">
-          <Swiper
+          <Bubble3 
+            className="h-[20px]"
+          >
+            <div
+              className="w-fit flex-nowrap text-[12px] left-4  text-white px-[8px] h-[20px] rounded-full flex flex-row items-center"
+              style={{
+                background:
+                  "linear-gradient(91deg, rgba(255, 113, 198, 0.79) 0.44%, rgba(251, 167, 217, 0.79) 100%)",
+                flex: "0 0 auto"  
+              }}
+            >
+              <img
+                src="/Joe.png"
+                alt="Ava profile picture"
+                className="w-[16px] h-[16px] rounded-full"
+              />
+              <span className=" text-[#2094FF] mx-[4px]">Joe</span> just
+              joined the room
+            </div>
+            <div
+              className="w-fit flex-nowrap text-[12px] left-4  text-white px-[8px] h-[20px] rounded-full flex flex-row items-center"
+              style={{
+                background:
+                  "linear-gradient(91deg, rgba(255, 113, 198, 0.79) 0.44%, rgba(251, 167, 217, 0.79) 100%)",
+                flex: "0 0 auto"  
+              }}
+            >
+              <img
+                src="/Joe.png"
+                alt="Ava profile picture"
+                className="w-[16px] h-[16px] rounded-full"
+              />
+              <span className=" text-[#2094FF] mx-[4px]">Joe</span> just
+              joined the room
+            </div>
+            <div
+              className="w-fit flex-nowrap text-[12px] left-4  text-white px-[8px] h-[20px] rounded-full flex flex-row items-center"
+              style={{
+                background:
+                  "linear-gradient(91deg, rgba(255, 113, 198, 0.79) 0.44%, rgba(251, 167, 217, 0.79) 100%)",
+                flex: "0 0 auto"  
+              }}
+            >
+              <img
+                src="/Joe.png"
+                alt="Ava profile picture"
+                className="w-[16px] h-[16px] rounded-full"
+              />
+              <span className=" text-[#2094FF] mx-[4px]">Joe</span> just
+              joined the room
+            </div>
+            <div
+              className="w-fit flex-nowrap text-[12px] left-4  text-white px-[8px] h-[20px] rounded-full flex flex-row items-center"
+              style={{
+                background:
+                  "linear-gradient(91deg, rgba(255, 113, 198, 0.79) 0.44%, rgba(251, 167, 217, 0.79) 100%)",
+                flex: "0 0 auto"  
+              }}
+            >
+              <img
+                src="/Joe.png"
+                alt="Ava profile picture"
+                className="w-[16px] h-[16px] rounded-full"
+              />
+              <span className=" text-[#2094FF] mx-[4px]">Joe</span> just
+              joined the room
+            </div>
+          </Bubble3>
+          {/* <Swiper
             direction={"vertical"}
             loop={true}
             onSwiper={setSwiperRef}
@@ -477,7 +546,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ data }) => {
                 joined the room
               </div>
             </SwiperSlide>
-          </Swiper>
+          </Swiper> */}
         </div>
 
         <div
